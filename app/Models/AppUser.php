@@ -8,6 +8,7 @@ class AppUser extends Model
 {
     protected $fillable = [
         'id',
+        'facebook_id',
         'name',
         'phone_number',
         'gender',

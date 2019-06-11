@@ -67,7 +67,8 @@ class CreateModelsAppUsersTable extends Migration
     {
         Schema::create('app_users', function (Blueprint $table) {
             $table->uuid('id');
-            $table->string('name');
+            $table->string('facebook_id')->unique();
+            $table->string('name')->nullable();
             $table->string('phone_number');
             $table->enum('gender', ['male', 'female', 'trans', 'other', 'secret'])->nullable();
             $table->dateTime('birthday')->nullable();
