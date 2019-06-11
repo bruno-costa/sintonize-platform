@@ -31,8 +31,8 @@ class CreateModelsAppUsersTable extends Migration
         echo "creating CreateContents table...";
         $this->createCreateContentsTable();
         echo "    DONE", PHP_EOL;
-        echo "creating ParticipationContents table...";
-        $this->createParticipationContentsTable();
+        echo "creating ContentParticipation table...";
+        $this->createContentParticipationTable();
         echo "    DONE", PHP_EOL;
         echo "creating Advertiser table...";
         $this->createAdvertiserTable();
@@ -88,6 +88,7 @@ class CreateModelsAppUsersTable extends Migration
             $table->string('estate');
             $table->unsignedBigInteger('avatar_asset_id')->nullable();
             $table->softDeletes();
+
             $table->primary('id');
 
             $table->foreign('avatar_asset_id')
@@ -145,6 +146,7 @@ class CreateModelsAppUsersTable extends Migration
             $table->softDeletes();
 
             $table->primary('id');
+
             $table->foreign('radio_id')
                 ->references('id')->on('radios')
                 ->onDelete('cascade')
@@ -157,7 +159,7 @@ class CreateModelsAppUsersTable extends Migration
         });
     }
 
-    private function createParticipationContentsTable()
+    private function createContentParticipationTable()
     {
         Schema::create('content_participations', function (Blueprint $table) {
             $table->uuid('app_user_id');

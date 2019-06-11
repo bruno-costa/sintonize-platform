@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Advertiser extends Model
+{
+    protected $fillable = [
+        'id',
+        'name',
+        'avatar_asset_id',
+        'url',
+    ];
+
+    public function avatar()
+    {
+        $this->belongsTo(Asset::class, 'avatar_asset_id');
+    }
+}
