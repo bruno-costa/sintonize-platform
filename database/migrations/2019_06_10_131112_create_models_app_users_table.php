@@ -88,6 +88,7 @@ class CreateModelsAppUsersTable extends Migration
             $table->string('city');
             $table->string('estate');
             $table->unsignedBigInteger('avatar_asset_id')->nullable();
+            $table->text('data_array');
             $table->softDeletes();
 
             $table->primary('id');

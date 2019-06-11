@@ -12,6 +12,6 @@ class Genre extends Model
 
     public function radios()
     {
-        return $this->hasManyThrough(Radio::class, 'radio_genres');
+        return $this->hasManyThrough(Radio::class, RadioGenre::class);
     }
 }

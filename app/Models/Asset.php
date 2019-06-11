@@ -52,4 +52,9 @@ class Asset extends Model
     {
         return $this->hasMany(Asset::class, 'origin_asset_id');
     }
+
+    public function url()
+    {
+        return '';
+    }
 }

@@ -15,6 +15,10 @@ class Radio extends Model
         'avatar_asset_id',
     ];
 
+    protected $casts = [
+        'data_array' => 'array'
+    ];
+
     public function avatar()
     {
         return $this->belongsTo(Asset::class, 'avatar_asset_id');
@@ -22,11 +26,59 @@ class Radio extends Model
 
     public function genres()
     {
-        return $this->hasManyThrough(Genre::class, 'radio_genres');
+        return $this->hasManyThrough(Genre::class, RadioGenre::class);
     }
 
     public function contents()
     {
         return $this->hasMany(Content::class);
+    }
+
+    public function avatarUrl(): ?string
+    {
+        $avatar = $this->avatar;
+        if ($avatar) {
+            $avatar->url();
+        }
+        return null;
+    }
+
+    public function themeColor(string $themeColor = null): ?string
+    {
+        $data = $this->data_array ?? [];
+        if (func_num_args() === 0) {
+            return $data['themeColor'] ?? null;
+        } else {
+            $this->data_array = [
+                    'themeColor' => $themeColor,
+                ] + $data;
+            return $themeColor;
+        }
+    }
+
+    public function streamUrl(string $streamUrl = null): ?string
+    {
+        $data = $this->data_array ?? [];
+        if (func_num_args() === 0) {
+            return $data['streamUrl'] ?? null;
+        } else {
+            $this->data_array = [
+                    'streamUrl' => $streamUrl,
+                ] + $data;
+            return $streamUrl;
+        }
+    }
+
+    public function station(string $station = null): ?string
+    {
+        $data = $this->data_array ?? [];
+        if (func_num_args() === 0) {
+            return $data['station'] ?? null;
+        } else {
+            $this->data_array = [
+                    'station' => $station,
+                ] + $data;
+            return $station;
+        }
     }
 }
