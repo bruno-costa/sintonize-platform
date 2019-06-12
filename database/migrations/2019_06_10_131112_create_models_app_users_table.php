@@ -141,8 +141,6 @@ class CreateModelsAppUsersTable extends Migration
             $table->uuid('radio_id');
             $table->string('text')->nullable();
             $table->unsignedBigInteger('image_asset_id')->nullable();
-            $table->string('action_label')->nullable();
-            $table->string('action_url')->nullable();
             $table->text('promotion_array');
             $table->timestamps();
             $table->softDeletes();

@@ -9,8 +9,8 @@ class ContentAdvertiser extends Model
     protected $fillable = [
         'content_id',
         'advertiser_id',
-        'url',
         'image_asset_id',
+        'url',
     ];
 
 
