@@ -38,6 +38,11 @@ class Content extends Model
         $this->belongsTo(Asset::class, 'image_asset_id');
     }
 
+    public function participations()
+    {
+        return $this->hasMany(ContentParticipation::class);
+    }
+
     public function imageUrl(): ?string
     {
         $img = $this->image;
@@ -58,7 +63,7 @@ class Content extends Model
         if ($data === null) {
             return null;
         }
-        return PromotionAbstract::restoreData($data);
+        return PromotionAbstract::restoreData($data, $this);
     }
 
     public function winCode()

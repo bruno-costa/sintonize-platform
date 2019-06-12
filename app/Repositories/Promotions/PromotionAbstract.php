@@ -2,23 +2,33 @@
 
 namespace App\Repositories\Promotions;
 
-abstract class PromotionAbstract implements \JsonSerializable, \Serializable
+use App\Models\AppUser;
+use App\Models\Content;
+
+abstract class PromotionAbstract implements \Serializable
 {
-    abstract public function getType(): string;
+    /** @var Content */
+    protected $content;
 
-    abstract protected function getArraySerialized(): array;
-
-    abstract protected function setArraySerialized(array $data);
-
-    protected function dataJson(): array
+    final public function __construct(Content $content)
     {
-        return $this->getArraySerialized();
+        $this->content = $content;
     }
 
-    public function jsonSerialize()
-    {
+    abstract public function getType(): string;
 
-        return ['type' => $this->getType()] + $this->dataJson();
+    protected function getArraySerialized(): array
+    {
+        return [];
+    }
+
+    protected function setArraySerialized(array $data)
+    {
+    }
+
+    public function dataJsonParticipations(AppUser $user): array
+    {
+        return [];
     }
 
     public function serialize()
@@ -39,10 +49,10 @@ abstract class PromotionAbstract implements \JsonSerializable, \Serializable
         ];
     }
 
-    static public function restoreData(array $data): PromotionAbstract
+    static public function restoreData(array $data, Content $content): PromotionAbstract
     {
         /** @var PromotionAbstract $obj */
-        $obj = new $data['_class'];
+        $obj = new $data['_class']($content);
         $obj->setArraySerialized($data['_data']);
         return $obj;
     }
