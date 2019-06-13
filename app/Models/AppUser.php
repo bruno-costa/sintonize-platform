@@ -14,4 +14,6 @@ class AppUser extends Model
         'gender',
         'birthday',
     ];
+
+    public $incrementing = false;
 }

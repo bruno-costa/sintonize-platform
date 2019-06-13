@@ -20,7 +20,7 @@ class RegisterController extends Controller
         $user = $request->user();
 
         if (!$user->exists) {
-             $user->id = Str::uuid() . '';
+             $user->id = Str::uuid();
         }
 
         $user->name = $request['name'];
