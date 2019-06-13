@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AppUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -17,9 +18,15 @@ class RegisterController extends Controller
     {
         /** @var AppUser $user */
         $user = $request->user();
+
+        if (!$user->exists) {
+             $user->id = Str::uuid() . '';
+        }
+
         $user->name = $request['name'];
         $user->gender = $request['gender'];
         $user->birthday = $request['birthday'];
+        $user->save();
 
         return response()->json([
             '_cod' => 'ok',
