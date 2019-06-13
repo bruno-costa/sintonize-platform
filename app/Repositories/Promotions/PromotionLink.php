@@ -7,7 +7,7 @@ class PromotionLink extends PromotionAbstract
     public $label = '';
     public $url = '';
 
-    public function getType(): string
+    static public function getType(): string
     {
         return 'link';
     }

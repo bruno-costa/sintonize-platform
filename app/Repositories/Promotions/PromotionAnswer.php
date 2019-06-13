@@ -8,7 +8,7 @@ use App\Models\ContentParticipation;
 class PromotionAnswer extends PromotionAbstract
 {
 
-    public function getType(): string
+    static public function getType(): string
     {
         return 'response';
     }
@@ -23,6 +23,14 @@ class PromotionAnswer extends PromotionAbstract
         }
         return [
             'answer' => $answer
+        ];
+    }
+
+    public function createParticipation(ContentParticipation $participation, array $data)
+    {
+        $participation->is_winner = false;
+        $participation->promotion_answer_array = [
+            'answer' => $data['response'] ?? null
         ];
     }
 }

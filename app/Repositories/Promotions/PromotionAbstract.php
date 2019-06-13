@@ -4,18 +4,34 @@ namespace App\Repositories\Promotions;
 
 use App\Models\AppUser;
 use App\Models\Content;
+use App\Models\ContentParticipation;
 
 abstract class PromotionAbstract implements \Serializable
 {
     /** @var Content */
     protected $content;
 
+    static abstract public function getType(): string;
+
+    public function createParticipation(ContentParticipation $participation, array $data)
+    {
+        $participation->is_winner = false;
+        $participation->promotion_answer_array = [];
+    }
+
     final public function __construct(Content $content)
     {
         $this->content = $content;
     }
 
-    abstract public function getType(): string;
+    public function registerParticipation(array $data, AppUser $user)
+    {
+        $participation = new ContentParticipation();
+        $participation->app_user_id = $user->id;
+        $participation->content_id = $this->content->id;
+        $this->createParticipation($participation, $data);
+        $participation->save();
+    }
 
     protected function getArraySerialized(): array
     {

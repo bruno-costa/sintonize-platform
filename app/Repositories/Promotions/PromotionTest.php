@@ -12,7 +12,7 @@ class PromotionTest extends PromotionAbstract
     /** @var Option[]|Collection */
     public $options;
 
-    public function getType(): string
+    static public function getType(): string
     {
         return 'test';
     }
@@ -33,6 +33,12 @@ class PromotionTest extends PromotionAbstract
             $option->unserialize($serial);
             return $option;
         });
+    }
+
+    public function createParticipation(ContentParticipation $participation, array $data)
+    {
+        $participation->is_winner = false;
+        $participation->promotion_answer_array = ['choice' => $data['choice']];
     }
 
     public function dataJsonParticipations(AppUser $user): array
