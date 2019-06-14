@@ -28,7 +28,7 @@ class FacebookGuard
 
     public function getFacebookData(Request $request)
     {
-        $token = $request['auth_token'] ?? null;
+        $token = $request->bearerToken();
         try {
             $facebookResponse = file_get_contents('https://graph.accountkit.com/v1.0/me?access_token=' . $token);
             $responseData = json_decode($facebookResponse, true);
