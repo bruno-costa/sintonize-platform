@@ -2,6 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use App\Models\Asset;
 use App\User;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
@@ -29,7 +30,10 @@ $factory->define(User::class, function (Faker $faker) {
 
 $factory->define(\App\Models\Radio::class, function (Faker $faker) {
     $r = new \App\Models\Radio();
-    $r->id = Str::uuid() . '';
+    $a = Asset::newFromUrl('https://picsum.photos/400/300');
+    $a->save();
+    $r->id = Str::uuid()->toString();
+    $r->avatar_asset_id = $a->id;
     $r->name = $faker->firstName;
     $r->description = '';
     $r->city = $faker->city;
@@ -41,9 +45,13 @@ $factory->define(\App\Models\Radio::class, function (Faker $faker) {
 
 $factory->define(\App\Models\Content::class, function (Faker $faker) {
     $c = new \App\Models\Content();
-    $c->id = Str::uuid() . '';
+    $a = Asset::newFromUrl('https://picsum.photos/400/300');
+    usleep(400);
+    $a->save();
+    $c->id = Str::uuid()->toString();
     $c->radio_id = \App\Models\Radio::inRandomOrder()->first()->id;
     $c->text = $faker->text(60);
+    $c->image_asset_id = $a->id;
 
     $l = new \App\Repositories\Promotions\PromotionLink($c);
     $l->label = "Veja Aqui";

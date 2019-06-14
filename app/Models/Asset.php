@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\AssetController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
@@ -55,6 +56,6 @@ class Asset extends Model
 
     public function url()
     {
-        return '';
+        return AssetController::url($this);
     }
 }
