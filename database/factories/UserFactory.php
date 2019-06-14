@@ -28,14 +28,6 @@ $factory->define(User::class, function (Faker $faker) {
 });
 
 $factory->define(\App\Models\Radio::class, function (Faker $faker) {
-    /*
-      "id": "52a41133-5640-4424-add8-6018f033c1cb",
-      "name": "First Radio",
-      "themeColor": "#B4D455",
-      "avatarUrl": null,
-      "streamUrl": "http:\/\/cast.hoost.com.br:9183\/stream",
-      "station": null
-    */
     $r = new \App\Models\Radio();
     $r->id = Str::uuid() . '';
     $r->name = $faker->firstName;
@@ -45,4 +37,27 @@ $factory->define(\App\Models\Radio::class, function (Faker $faker) {
     $r->themeColor($faker->hexColor);
     $r->streamUrl("http://cast.hoost.com.br:9183/stream");
     return $r->toArray();
+});
+
+$factory->define(\App\Models\Content::class, function (Faker $faker) {
+    $c = new \App\Models\Content();
+    $c->id = Str::uuid() . '';
+    $c->radio_id = \App\Models\Radio::inRandomOrder()->first()->id;
+    $c->text = $faker->text(60);
+
+    $l = new \App\Repositories\Promotions\PromotionLink($c);
+    $l->label = "Veja Aqui";
+    $l->url = $faker->url;
+
+    $a = new \App\Repositories\Promotions\PromotionAnswer($c);
+
+    $t = new \App\Repositories\Promotions\PromotionTest($c);
+    $t->addRawOption($faker->text(12));
+    $t->addRawOption($faker->text(12));
+    $t->addRawOption($faker->text(13));
+    $t->addRawOption($faker->text(14));
+
+    $c->promotion($faker->randomElement([$l, $a, $t]));
+
+    return $c->toArray();
 });

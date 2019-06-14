@@ -12,6 +12,24 @@ class PromotionTest extends PromotionAbstract
     /** @var Option[]|Collection */
     public $options;
 
+    protected function boot()
+    {
+        $this->options = new Collection();
+    }
+
+    public function addRawOption(string $label, bool $isCorrect = false)
+    {
+        $option = new Option();
+        $option->label = $label;
+        $option->isCorrect = $isCorrect;
+        return $this->addOption($option);
+    }
+
+    public function addOption(Option $option)
+    {
+        $this->options->push($option);
+    }
+
     static public function getType(): string
     {
         return 'test';
@@ -20,9 +38,9 @@ class PromotionTest extends PromotionAbstract
     protected function getArraySerialized(): array
     {
         return [
-            'options' => $this->options->map([function (Option $option) {
+            'options' => $this->options->map(function (Option $option) {
                 return $option->serialize();
-            }])
+            })
         ];
     }
 

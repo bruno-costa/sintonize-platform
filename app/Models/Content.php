@@ -9,18 +9,20 @@ class Content extends Model
 {
     use DynamicAttributeTrait;
 
-    protected $dynamicAttributeProp = 'action_array';
+    protected $dynamicAttributeProp = 'promotion_array';
+
+    public $incrementing = false;
 
     protected $fillable = [
         'id',
         'radio_id',
         'text',
         'image_asset_id',
-        'action_array',
+        'promotion_array',
     ];
 
     protected $casts = [
-        'action_array' => 'array'
+        'promotion_array' => 'array'
     ];
 
     public function advertisers()
@@ -35,7 +37,7 @@ class Content extends Model
 
     public function image()
     {
-        $this->belongsTo(Asset::class, 'image_asset_id');
+        return $this->belongsTo(Asset::class, 'image_asset_id');
     }
 
     public function participations()

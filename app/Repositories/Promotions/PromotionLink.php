@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Promotions;
 
+use App\Models\AppUser;
+
 class PromotionLink extends PromotionAbstract
 {
     public $label = '';
@@ -10,6 +12,14 @@ class PromotionLink extends PromotionAbstract
     static public function getType(): string
     {
         return 'link';
+    }
+
+    public function dataJsonParticipations(AppUser $user): array
+    {
+        return [
+            'label' => $this->label,
+            'url' => $this->url,
+        ];
     }
 
     protected function getArraySerialized(): array

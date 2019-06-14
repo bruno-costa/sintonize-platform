@@ -22,6 +22,11 @@ abstract class PromotionAbstract implements \Serializable
     final public function __construct(Content $content)
     {
         $this->content = $content;
+        $this->boot();
+    }
+
+    protected function boot()
+    {
     }
 
     public function registerParticipation(array $data, AppUser $user)
