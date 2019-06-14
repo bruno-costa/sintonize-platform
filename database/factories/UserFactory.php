@@ -30,7 +30,7 @@ $factory->define(User::class, function (Faker $faker) {
 
 $factory->define(\App\Models\Radio::class, function (Faker $faker) {
     $r = new \App\Models\Radio();
-    $a = Asset::newFromUrl('https://picsum.photos/400/300');
+    $a = Asset::newFromUrl('https://picsum.photos/150/150');
     $a->save();
     $r->id = Str::uuid()->toString();
     $r->avatar_asset_id = $a->id;

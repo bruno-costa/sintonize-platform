@@ -40,7 +40,7 @@ class Radio extends Model
     {
         $avatar = $this->avatar;
         if ($avatar) {
-            $avatar->url();
+            return $avatar->url();
         }
         return null;
     }

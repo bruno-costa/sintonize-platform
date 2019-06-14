@@ -15,7 +15,7 @@ class RadioListController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $radios = Radio::all();
+        $radios = Radio::with('avatar')->get();
         return response()->json([
             '_cod' => 'ok',
             'radios' => $radios->map(function(Radio $radio) {
