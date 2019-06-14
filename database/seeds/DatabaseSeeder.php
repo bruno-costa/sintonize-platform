@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        factory(\App\Models\Radio::class, 10);
         // $this->call(UsersTableSeeder::class);
     }
 }
