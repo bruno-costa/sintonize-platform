@@ -42,7 +42,7 @@ class RadioContentParticipateController extends Controller
                 '_cod' => 'fail',
                 'exception' => [
                     'msg' => $e->getMessage(),
-                    'trace' => $e->getTrace()
+                    //'trace' => $e->getTrace()
                 ]
             ], 400);
         }
