@@ -31,9 +31,12 @@ abstract class PromotionAbstract implements \Serializable
 
     public function registerParticipation(array $data, AppUser $user)
     {
-        $participation = new ContentParticipation();
-        $participation->app_user_id = $user->id;
-        $participation->content_id = $this->content->id;
+        $participation = ContentParticipation::whereContentId($this->content->id)
+            ->whereAppUserId($user->id)
+            ->firstOrNew([
+                'app_user_id' => $user->id,
+                'content_id' => $this->content->id,
+            ]);
         $this->createParticipation($participation, $data);
         $participation->save();
     }

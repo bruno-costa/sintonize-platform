@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Guard\FacebookGuard;
 use App\Models\AppUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -17,7 +18,7 @@ class RegisterController extends Controller
     public function __invoke(Request $request)
     {
         /** @var AppUser $user */
-        $user = $request->user();
+        $user = app(FacebookGuard::class)->user($request);
 
         if (!$user->exists) {
              $user->id = Str::uuid();

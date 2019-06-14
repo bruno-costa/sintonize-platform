@@ -29,7 +29,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Auth::viaRequest('accountkit', function (Request $request) {
-            return app(FacebookGuard::class)->user($request);
+            $user = app(FacebookGuard::class)->user($request);
+            return $user->exists ? $user : null;
         });
     }
 }

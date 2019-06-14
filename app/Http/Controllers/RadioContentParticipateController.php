@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\HttpInvalidArgument;
 use App\Models\AppUser;
 use App\Models\Content;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ class RadioContentParticipateController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function __invoke($contentId, Request $request)
@@ -32,9 +33,17 @@ class RadioContentParticipateController extends Controller
 
         try {
             $promotion->registerParticipation($data, $user);
+        } catch (HttpInvalidArgument $e) {
+            return response()->json([
+                '_cod' => 'radio/content/' . $e->responseCod,
+            ], 400);
         } catch (\Throwable $e) {
             return response()->json([
-                '_cod' => 'fail'
+                '_cod' => 'fail',
+                'exception' => [
+                    'msg' => $e->getMessage(),
+                    'trace' => $e->getTrace()
+                ]
             ], 400);
         }
 

@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Promotions;
 
+use App\Exceptions\HttpInvalidArgument;
 use App\Models\AppUser;
 use App\Models\ContentParticipation;
 
@@ -26,11 +27,23 @@ class PromotionAnswer extends PromotionAbstract
         ];
     }
 
+    /**
+     * @param ContentParticipation $participation
+     * @param array $data
+     * @throws HttpInvalidArgument
+     */
     public function createParticipation(ContentParticipation $participation, array $data)
     {
+        // validar
+        if (!isset($data['response'])) {
+            throw new HttpInvalidArgument("response_missing");
+        }
+        $response = $data['response'];
+
         $participation->is_winner = false;
         $participation->promotion_answer_array = [
-            'answer' => $data['response'] ?? null
+            'answer' => $response
         ];
+        $participation->save();
     }
 }

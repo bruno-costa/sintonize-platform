@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Promotions;
 
+use App\Exceptions\HttpInvalidArgument;
 use App\Models\AppUser;
 use App\Models\ContentParticipation;
 use App\Repositories\Option;
@@ -53,10 +54,27 @@ class PromotionTest extends PromotionAbstract
         });
     }
 
+    /**
+     * @param ContentParticipation $participation
+     * @param array $data
+     * @throws HttpInvalidArgument
+     */
     public function createParticipation(ContentParticipation $participation, array $data)
     {
+        // validar
+        if (!isset($data['choice'])) {
+            throw new HttpInvalidArgument("choice_missing");
+        }
+        $choice = $data['choice'];
+
+        if (!isset($this->options[$choice])) {
+            throw new HttpInvalidArgument("choice_invalid");
+        }
+
         $participation->is_winner = false;
-        $participation->promotion_answer_array = ['choice' => $data['choice']];
+        $participation->promotion_answer_array = [
+            'choice' => $choice
+        ];
     }
 
     public function dataJsonParticipations(AppUser $user): array
