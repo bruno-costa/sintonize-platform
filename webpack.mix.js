@@ -1,4 +1,4 @@
-const mix = require('laravel-mix');
+const mix = require('laravel-mix')
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+mix.js('resources/js/app.js', 'public/js').
+  sass('resources/sass/app.scss', 'public/css').
+  styles([
+    'resources/vendor/argon/css/argon.min.css',
+  ], 'public/css/vendor.min.css').
+  scripts([
+    'resources/vendor/js-cookie/js.cookie.js',
+    'resources/vendor/scrollbar/jquery.scrollbar.min.js',
+    'resources/vendor/scrollbar/jquery-scrollLock.min.js',
+    'resources/vendor/argon/js/argon.min.js',
+  ], 'public/js/vendor.min.js')
