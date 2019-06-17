@@ -39,7 +39,11 @@ $factory->define(\App\Models\Radio::class, function (Faker $faker) {
     $r->city = $faker->city;
     $r->estate = '';
     $r->themeColor($faker->hexColor);
-    $r->streamUrl("http://cast.hoost.com.br:9183/stream");
+    $r->streamUrl($faker->randomElement([
+        'http://suaradio1.dyndns.ws:13551/stream?_=357',
+        'http://paineldj4.com.br:10234/stream?type=.mp3',
+        'http://cast2.hoost.com.br:9212/stream',
+    ]));
     return $r->toArray();
 });
 
