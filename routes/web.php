@@ -7,3 +7,7 @@ Route::get('/', function () {
 });
 
 Route::get('/asset/{token}', AssetController::class)->name('asset');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
