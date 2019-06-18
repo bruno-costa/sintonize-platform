@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof AuthenticationException) {
+        if ($exception instanceof AuthenticationException && $request->expectsJson()) {
             return response()->json([
                 '_cod' => 'unauthenticated'
             ], 401);
