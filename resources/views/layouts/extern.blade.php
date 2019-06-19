@@ -57,8 +57,7 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
 
@@ -97,8 +96,6 @@
     <!-- Argon CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/vendor.min.css') }}" rel="stylesheet">
-
-    <base href="https://demos.creative-tim.com/argon-dashboard-pro/pages/examples/">
 </head>
 
 <body class="bg-default">

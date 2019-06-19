@@ -21,4 +21,8 @@ mix.js('resources/js/app.js', 'public/js').
     'resources/vendor/scrollbar/jquery.scrollbar.min.js',
     'resources/vendor/scrollbar/jquery-scrollLock.min.js',
     'resources/vendor/argon/js/argon.min.js',
-  ], 'public/js/vendor.min.js')
+  ], 'public/js/vendor.min.js').
+  scripts([
+    'resources/vendor/chart/Chart.min.js',
+    'resources/vendor/chart/Chart.extension.js',
+  ], 'public/js/vendor.chart.min.js')

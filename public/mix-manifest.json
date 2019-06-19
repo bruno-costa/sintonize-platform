@@ -2,5 +2,6 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/css/vendor.min.css": "/css/vendor.min.css",
-    "/js/vendor.min.js": "/js/vendor.min.js"
+    "/js/vendor.min.js": "/js/vendor.min.js",
+    "/js/vendor.chart.min.js": "/js/vendor.chart.min.js"
 }

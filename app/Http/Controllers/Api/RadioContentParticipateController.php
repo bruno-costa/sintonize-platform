@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Exceptions\HttpInvalidArgument;
+use App\Http\Controllers\Controller;
 use App\Models\AppUser;
 use App\Models\Content;
 use Illuminate\Http\Request;

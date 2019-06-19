@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\AppAuthController;
-use App\Http\Controllers\RadioContentController;
-use App\Http\Controllers\RadioContentParticipateController;
-use App\Http\Controllers\RadioListController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Api\AppAuthController;
+use App\Http\Controllers\Api\RadioContentController;
+use App\Http\Controllers\Api\RadioContentParticipateController;
+use App\Http\Controllers\Api\RadioListController;
+use App\Http\Controllers\Api\RegisterController;
 
 Route::get('/me', AppAuthController::class);
 Route::post('/register', RegisterController::class);

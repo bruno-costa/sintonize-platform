@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\AssetController;
+use App\Http\Controllers\Api\AssetController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
