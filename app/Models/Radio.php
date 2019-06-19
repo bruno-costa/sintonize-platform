@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Radio extends Model
 {
+    use DynamicAttributeTrait;
+
+    protected $dynamicAttributeProp = 'data_array';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -47,40 +51,16 @@ class Radio extends Model
 
     public function themeColor(string $themeColor = null): ?string
     {
-        $data = $this->data_array ?? [];
-        if (func_num_args() === 0) {
-            return $data['themeColor'] ?? null;
-        } else {
-            $this->data_array = [
-                    'themeColor' => $themeColor,
-                ] + $data;
-            return $themeColor;
-        }
+        return $this->dynamicAttributeMutator('themeColor', func_get_args());
     }
 
     public function streamUrl(string $streamUrl = null): ?string
     {
-        $data = $this->data_array ?? [];
-        if (func_num_args() === 0) {
-            return $data['streamUrl'] ?? null;
-        } else {
-            $this->data_array = [
-                    'streamUrl' => $streamUrl,
-                ] + $data;
-            return $streamUrl;
-        }
+        return $this->dynamicAttributeMutator('streamUrl', func_get_args());
     }
 
     public function station(string $station = null): ?string
     {
-        $data = $this->data_array ?? [];
-        if (func_num_args() === 0) {
-            return $data['station'] ?? null;
-        } else {
-            $this->data_array = [
-                    'station' => $station,
-                ] + $data;
-            return $station;
-        }
+        return $this->dynamicAttributeMutator('station', func_get_args());
     }
 }
