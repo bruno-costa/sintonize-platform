@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\Api\AssetController;
+use App\Http\Controllers\AssetController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
@@ -19,7 +19,7 @@ class Asset extends Model
         'mime_type',
     ];
 
-    public static function newFromUrl($url): self
+    public static function newLocalFromUrl($url): self
     {
         $conversor = new \App\Utils\FileManipulator();
         $file = $conversor->fromURL($url)->toUploadedFile();
@@ -34,15 +34,32 @@ class Asset extends Model
 
     public static function newFromUploadedFile(UploadedFile $uploadedFile)
     {
-        $asset =  new self;
+        $asset = new self;
         $asset->fill([
-            'md5sum'=> md5_file($uploadedFile->getRealPath()),
+            'md5sum' => md5_file($uploadedFile->getRealPath()),
             'shasum' => sha1_file($uploadedFile->getRealPath()),
             'size' => $uploadedFile->getSize(),
             'mime_type' => $uploadedFile->getMimeType(),
         ]);
         return $asset;
     }
+
+
+    public static function createLocalFromUploadedFile(UploadedFile $uploadedFile)
+    {
+        $asset = new self;
+        $asset->fill([
+            'md5sum' => md5_file($uploadedFile->getRealPath()),
+            'shasum' => sha1_file($uploadedFile->getRealPath()),
+            'size' => $uploadedFile->getSize(),
+            'mime_type' => $uploadedFile->getMimeType(),
+            'path' => 'storage/' . substr($uploadedFile->store('public/uploads', 'local'), 7),
+            'disk' => 'local',
+        ]);
+        $asset->save();
+        return $asset;
+    }
+
 
     public function original()
     {

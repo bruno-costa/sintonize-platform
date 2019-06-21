@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Radio extends Model
@@ -32,12 +33,17 @@ class Radio extends Model
 
     public function genres()
     {
-        return $this->hasManyThrough(Genre::class, RadioGenre::class);
+        return $this->belongsToMany(Genre::class, 'radio_genres');
     }
 
     public function contents()
     {
         return $this->hasMany(Content::class);
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'radio_users');
     }
 
     public function avatarUrl(): ?string

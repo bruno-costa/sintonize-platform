@@ -14,15 +14,18 @@ const mix = require('laravel-mix')
 mix.js('resources/js/app.js', 'public/js').
   sass('resources/sass/app.scss', 'public/css').
   styles([
-    'resources/vendor/argon/css/argon.min.css',
-  ], 'public/css/vendor.min.css').
+    'resources/plugins/argon/css/argon.min.css'
+  ], 'public/css/plugins.main.min.css').
   scripts([
-    'resources/vendor/js-cookie/js.cookie.js',
-    'resources/vendor/scrollbar/jquery.scrollbar.min.js',
-    'resources/vendor/scrollbar/jquery-scrollLock.min.js',
-    'resources/vendor/argon/js/argon.min.js',
-  ], 'public/js/vendor.min.js').
+    'resources/plugins/js-cookie/js.cookie.js',
+    'resources/plugins/scrollbar/jquery.scrollbar.min.js',
+    'resources/plugins/scrollbar/jquery-scrollLock.min.js',
+    'resources/plugins/argon/js/argon.js'
+  ], 'public/js/plugins.main.min.js').
   scripts([
-    'resources/vendor/chart/Chart.min.js',
-    'resources/vendor/chart/Chart.extension.js',
-  ], 'public/js/vendor.chart.min.js')
+    'resources/plugins/chart/Chart.min.js',
+    'resources/plugins/chart/Chart.extension.js'
+  ], 'public/js/plugins.chart.min.js').
+  scripts([
+    'resources/plugins/dropzone/dropzone.min.js'
+  ], 'public/js/plugins.dropzone.min.js')

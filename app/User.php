@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Models\Asset;
+use App\Models\Radio;
+use App\Models\Roles\RoleAdmin;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,4 +39,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function avatar()
+    {
+        return $this->belongsTo(Asset::class, 'avatar_asset_id');
+    }
+
+    public function radios()
+    {
+        return $this->belongsToMany(Radio::class, 'radio_users');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasOne(RoleAdmin::class)->exists();
+    }
 }

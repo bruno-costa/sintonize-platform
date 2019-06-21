@@ -16,6 +16,12 @@ class CreateModelsAppUsersTable extends Migration
         echo "creating Assets table...";
         $this->createAssetsTable();
         echo "    DONE", PHP_EOL;
+        echo "creating User table...";
+        $this->createUserTable();
+        echo "    DONE", PHP_EOL;
+        echo "creating PasswordResets table...";
+        $this->createPasswordResetsTable();
+        echo "    DONE", PHP_EOL;
         echo "creating AppUsers table...";
         $this->createAppUsersTable();
         echo "    DONE", PHP_EOL;
@@ -40,6 +46,12 @@ class CreateModelsAppUsersTable extends Migration
         echo "creating ContentAdvertiser table...";
         $this->createContentAdvertiserTable();
         echo "    DONE", PHP_EOL;
+        echo "creating DashUserRadioGenres table...";
+        $this->createDashUserRadioGenresTable();
+        echo "    DONE", PHP_EOL;
+        echo "creating RoleAdmin table...";
+        $this->createRoleAdminTable();
+        echo "    DONE", PHP_EOL;
     }
 
     private function createAssetsTable()
@@ -60,6 +72,34 @@ class CreateModelsAppUsersTable extends Migration
                 ->references('id')->on('assets')
                 ->onDelete('set null')
                 ->onUpdate('cascade');
+        });
+    }
+
+    private function createUserTable()
+    {
+        Schema::create('users', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->unsignedBigInteger('avatar_asset_id')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
+
+            $table->foreign('avatar_asset_id')
+                ->references('id')->on('assets')
+                ->onDelete('set null')
+                ->onUpdate('cascade');
+        });
+    }
+
+    private function createPasswordResetsTable()
+    {
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -229,6 +269,45 @@ class CreateModelsAppUsersTable extends Migration
         });
     }
 
+    private function createDashUserRadioGenresTable()
+    {
+        Schema::create('radio_users', function (Blueprint $table) {
+            $table->uuid('radio_id');
+            $table->unsignedBigInteger('user_id');
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->primary(['radio_id', 'user_id']);
+
+            $table->index(["radio_id"]);
+            $table->index(["user_id"]);
+            $table->index(["radio_id", "user_id"]);
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('radio_id')
+                ->references('id')->on('radios')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+        });
+    }
+    private function createRoleAdminTable()
+    {
+        Schema::create('role_admins', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
+            $table->timestamp('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->primary('user_id');
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+        });
+    }
+
     /**
      * Reverse the migrations.
      *
@@ -244,6 +323,8 @@ class CreateModelsAppUsersTable extends Migration
         Schema::dropIfExists('genres');
         Schema::dropIfExists('radios');
         Schema::dropIfExists('app_users');
+        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('users');
         Schema::dropIfExists('assets');
     }
 }

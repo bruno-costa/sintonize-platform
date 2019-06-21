@@ -1,3 +1,5 @@
+@inject('viewCtrl', 'App\Services\ViewStateController')
+<?php /** @var \App\Services\ViewStateController $viewCtrl */ ?>
 <!DOCTYPE html>
 <html>
 
@@ -14,22 +16,10 @@
     <!-- Argon CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/vendor.min.css') }}" rel="stylesheet">
+    @stack('styles')
 
     <base href="https://demos.creative-tim.com/argon-dashboard-pro/pages/dashboards/">
 </head>
-{{--
-<body>
-<!-- Navbar -->
-<!-- Main content -->
-<main class="main-content">
-    @yield('content')
-</main>
-
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/vendor.chart.min.js') }}"></script>
-<script src="{{ asset('js/vendor.min.js') }}"></script>
-</body>
---}}
 <body class="@yield('body-class')">
 <!-- Sidenav -->
 <nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
@@ -55,25 +45,25 @@
             <!-- Collapse -->
             <div class="collapse navbar-collapse" id="sidenav-collapse-main">
                 <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ route('home') }}">
+                    <li class="nav-item">
+                        <a class="nav-link {{ $viewCtrl->activeNavItemMatch() }}" href="{{ route('home') }}">
                             <i class="fas fa-rocket text-primary"></i>
                             <span class="nav-link-text">Dashboard</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#navbar-radio-collapse" data-toggle="collapse" role="button"
+                        <a class="nav-link {{ $viewCtrl->activeNavItemMatch('radio') }}" href="#navbar-radio-collapse" data-toggle="collapse" role="button"
                            aria-expanded="true" aria-controls="navbar-radio-collapse">
                             <i class="fas fa-podcast text-default"></i>
                             <span class="nav-link-text">Radio</span>
                         </a>
                         <div class="collapse" id="navbar-radio-collapse">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="{{ route('home') }}" class="nav-link">Dashboard</a>
+                                <li class="nav-item {{ $viewCtrl->activeNavItemMatch('radio') }}">
+                                    <a href="{{ route('radio.index') }}" class="nav-link">Lista</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Alternative</a>
+                                    <a href="#" class="nav-link">Novo</a>
                                 </li>
                             </ul>
                         </div>
@@ -110,7 +100,7 @@
                             <div class="collapse show" id="navbar-dashboards">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link">Dashboard</a>
+                                        <a href="{{ route('home') }}" class="nav-link">Dashboard</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">Alternative</a>
@@ -567,8 +557,10 @@
                     <div class="col-lg-6 col-7">
                         <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                             <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                                <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                                <li class="breadcrumb-item active">Dashboards</li>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ route('home') }}"><i class="fas fa-home"></i> Dashboard</a>
+                                </li>
+                                @stack('breadcrumbs')
                             </ol>
                         </nav>
                     </div>
@@ -676,8 +668,9 @@
 </div>
 
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/vendor.chart.min.js') }}"></script>
-<script src="{{ asset('js/vendor.min.js') }}"></script>
+@stack('lib-script')
+<script src="{{ asset('js/plugins.main.min.js') }}"></script>
+@stack('script')
 
 </body>
 

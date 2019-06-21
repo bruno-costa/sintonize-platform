@@ -19,18 +19,21 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $a = Asset::newLocalFromUrl('https://api.adorable.io/avatar/' . $faker->word);
+    $a->save();
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         'remember_token' => Str::random(10),
+        'avatar_asset_id' => $a->id
     ];
 });
 
 $factory->define(\App\Models\Radio::class, function (Faker $faker) {
     $r = new \App\Models\Radio();
-    $a = Asset::newFromUrl('https://picsum.photos/150/150');
+    $a = Asset::newLocalFromUrl('https://picsum.photos/150/150');
     $a->save();
     $r->id = Str::uuid()->toString();
     $r->avatar_asset_id = $a->id;
@@ -49,7 +52,7 @@ $factory->define(\App\Models\Radio::class, function (Faker $faker) {
 
 $factory->define(\App\Models\Content::class, function (Faker $faker) {
     $c = new \App\Models\Content();
-    $a = Asset::newFromUrl('https://picsum.photos/400/300');
+    $a = Asset::newLocalFromUrl('https://picsum.photos/400/300');
     usleep(400);
     $a->save();
     $c->id = Str::uuid()->toString();

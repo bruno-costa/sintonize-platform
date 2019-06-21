@@ -1,7 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/css/vendor.min.css": "/css/vendor.min.css",
-    "/js/vendor.min.js": "/js/vendor.min.js",
-    "/js/vendor.chart.min.js": "/js/vendor.chart.min.js"
+    "/css/plugins.main.min.css": "/css/plugins.main.min.css",
+    "/js/plugins.main.min.js": "/js/plugins.main.min.js",
+    "/js/plugins.chart.min.js": "/js/plugins.chart.min.js",
+    "/js/plugins.dropzone.min.js": "/js/plugins.dropzone.min.js"
 }
