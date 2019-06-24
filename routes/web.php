@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Adm\DashUserController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Adm\RadioController;
@@ -13,8 +14,8 @@ Route::namespace('App\Http\Controllers')->group(function () {
 Route::middleware('auth')->group(function() {
     Route::prefix('adm')->group(function() {
         Route::resource('radio', RadioController::class);
+        Route::resource('dash-user', DashUserController::class);
     });
     Route::get('/', HomeController::class . '@index')->name('home');
     Route::get('/home', HomeController::class . '@index');
 });
-//Route::get('/radio', RadioController::class . "@index");

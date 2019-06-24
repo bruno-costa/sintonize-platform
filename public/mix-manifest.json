@@ -4,5 +4,7 @@
     "/css/plugins.main.min.css": "/css/plugins.main.min.css",
     "/js/plugins.main.min.js": "/js/plugins.main.min.js",
     "/js/plugins.chart.min.js": "/js/plugins.chart.min.js",
-    "/js/plugins.dropzone.min.js": "/js/plugins.dropzone.min.js"
+    "/js/plugins.dropzone.min.js": "/js/plugins.dropzone.min.js",
+    "/css/plugins.select2.min.css": "/css/plugins.select2.min.css",
+    "/js/plugins.select2.min.js": "/js/plugins.select2.min.js"
 }

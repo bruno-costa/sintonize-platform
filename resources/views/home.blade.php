@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('lib-script')
+    <script src="{{ asset('js/plugins.chart.min.js') }}"></script>
+@endpush
+
 @section('header-content')
     <!-- Card stats -->
     <div class="row">
@@ -174,7 +178,7 @@
                                     <div class="col-auto">
                                         <!-- Avatar -->
                                         <a href="#" class="avatar rounded-circle">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-1.jpg">
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                         </a>
                                     </div>
                                     <div class="col ml--2">
@@ -194,7 +198,7 @@
                                     <div class="col-auto">
                                         <!-- Avatar -->
                                         <a href="#" class="avatar rounded-circle">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-2.jpg">
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                         </a>
                                     </div>
                                     <div class="col ml--2">
@@ -214,7 +218,7 @@
                                     <div class="col-auto">
                                         <!-- Avatar -->
                                         <a href="#" class="avatar rounded-circle">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-3.jpg">
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                         </a>
                                     </div>
                                     <div class="col ml--2">
@@ -234,7 +238,7 @@
                                     <div class="col-auto">
                                         <!-- Avatar -->
                                         <a href="#" class="avatar rounded-circle">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-4.jpg">
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                         </a>
                                     </div>
                                     <div class="col ml--2">
@@ -344,7 +348,7 @@
                                     <div class="col-auto">
                                         <!-- Avatar -->
                                         <a href="#" class="avatar rounded-circle">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/bootstrap.jpg">
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/bootstrap.jpg">
                                         </a>
                                     </div>
                                     <div class="col">
@@ -361,7 +365,7 @@
                                     <div class="col-auto">
                                         <!-- Avatar -->
                                         <a href="#" class="avatar rounded-circle">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/angular.jpg">
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/angular.jpg">
                                         </a>
                                     </div>
                                     <div class="col">
@@ -378,7 +382,7 @@
                                     <div class="col-auto">
                                         <!-- Avatar -->
                                         <a href="#" class="avatar rounded-circle">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/sketch.jpg">
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/sketch.jpg">
                                         </a>
                                     </div>
                                     <div class="col">
@@ -395,7 +399,7 @@
                                     <div class="col-auto">
                                         <!-- Avatar -->
                                         <a href="#" class="avatar rounded-circle">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/react.jpg">
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/react.jpg">
                                         </a>
                                     </div>
                                     <div class="col">
@@ -421,7 +425,7 @@
                     <div class="card-header d-flex align-items-center">
                         <div class="d-flex align-items-center">
                             <a href="#">
-                                <img src="../../assets/img/theme/team-1.jpg" class="avatar">
+                                <img src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg" class="avatar">
                             </a>
                             <div class="mx-3">
                                 <a href="#" class="text-dark font-weight-600 text-sm">John Snow</a>
@@ -441,7 +445,7 @@
                             recruiters to continue reading your CV because you’re telling them from the off exactly why
                             they should hire you.
                         </p>
-                        <img alt="Image placeholder" src="../../assets/img/theme/img-1-1000x600.jpg"
+                        <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/img-1-1000x600.jpg"
                              class="img-fluid rounded">
                         <div class="row align-items-center my-3 pb-3 border-bottom">
                             <div class="col-sm-6">
@@ -465,17 +469,17 @@
                                     <div class="avatar-group">
                                         <a href="#" class="avatar avatar-xs rounded-circle" data-toggle="tooltip"
                                            data-original-title="Jessica Rowland">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-1.jpg"
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg"
                                                  class="">
                                         </a>
                                         <a href="#" class="avatar avatar-xs rounded-circle" data-toggle="tooltip"
                                            data-original-title="Audrey Love">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-2.jpg"
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg"
                                                  class="rounded-circle">
                                         </a>
                                         <a href="#" class="avatar avatar-xs rounded-circle" data-toggle="tooltip"
                                            data-original-title="Michael Lewis">
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-3.jpg"
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg"
                                                  class="rounded-circle">
                                         </a>
                                     </div>
@@ -488,7 +492,7 @@
                             <div class="media media-comment">
                                 <img alt="Image placeholder"
                                      class="avatar avatar-lg media-comment-avatar rounded-circle"
-                                     src="../../assets/img/theme/team-1.jpg">
+                                     src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                 <div class="media-body">
                                     <div class="media-comment-text">
                                         <h6 class="h5 mt-0">Michael Lewis</h6>
@@ -511,7 +515,7 @@
                             <div class="media media-comment">
                                 <img alt="Image placeholder"
                                      class="avatar avatar-lg media-comment-avatar rounded-circle"
-                                     src="../../assets/img/theme/team-2.jpg">
+                                     src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                 <div class="media-body">
                                     <div class="media-comment-text">
                                         <h6 class="h5 mt-0">Jessica Stones</h6>
@@ -534,7 +538,7 @@
                             <hr/>
                             <div class="media align-items-center">
                                 <img alt="Image placeholder" class="avatar avatar-lg rounded-circle mr-4"
-                                     src="../../assets/img/theme/team-3.jpg">
+                                     src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                 <div class="media-body">
                                     <form>
                                         <textarea class="form-control" placeholder="Write your comment"
@@ -572,7 +576,7 @@
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/bootstrap.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/bootstrap.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm">Argon Design System</span>
@@ -593,22 +597,22 @@
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Ryan Tompson">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-1.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Romina Hadid">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-2.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Alexander Smith">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-3.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Jessica Doe">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-4.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                                 </a>
                                             </div>
                                         </td>
@@ -643,7 +647,7 @@
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/angular.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/angular.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm">Angular Now UI Kit PRO</span>
@@ -664,22 +668,22 @@
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Ryan Tompson">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-1.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Romina Hadid">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-2.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Alexander Smith">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-3.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Jessica Doe">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-4.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                                 </a>
                                             </div>
                                         </td>
@@ -714,7 +718,7 @@
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/sketch.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/sketch.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm">Black Dashboard</span>
@@ -735,22 +739,22 @@
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Ryan Tompson">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-1.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Romina Hadid">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-2.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Alexander Smith">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-3.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Jessica Doe">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-4.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                                 </a>
                                             </div>
                                         </td>
@@ -784,7 +788,7 @@
                                         <th scope="row">
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
-                                                    <img alt="Image placeholder" src="../../assets/img/theme/react.jpg">
+                                                    <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/react.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm">React Material Dashboard</span>
@@ -805,22 +809,22 @@
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Ryan Tompson">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-1.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Romina Hadid">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-2.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Alexander Smith">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-3.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Jessica Doe">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-4.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                                 </a>
                                             </div>
                                         </td>
@@ -854,7 +858,7 @@
                                         <th scope="row">
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
-                                                    <img alt="Image placeholder" src="../../assets/img/theme/vue.jpg">
+                                                    <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/vue.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm">Vue Paper UI Kit PRO</span>
@@ -875,22 +879,22 @@
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Ryan Tompson">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-1.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Romina Hadid">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-2.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Alexander Smith">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-3.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Jessica Doe">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-4.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                                 </a>
                                             </div>
                                         </td>
@@ -925,7 +929,7 @@
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/bootstrap.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/bootstrap.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm">Argon Design System</span>
@@ -946,22 +950,22 @@
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Ryan Tompson">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-1.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Romina Hadid">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-2.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Alexander Smith">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-3.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Jessica Doe">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-4.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                                 </a>
                                             </div>
                                         </td>
@@ -996,7 +1000,7 @@
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/angular.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/angular.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm">Angular Now UI Kit PRO</span>
@@ -1017,22 +1021,22 @@
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Ryan Tompson">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-1.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Romina Hadid">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-2.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Alexander Smith">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-3.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Jessica Doe">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-4.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                                 </a>
                                             </div>
                                         </td>
@@ -1067,7 +1071,7 @@
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/sketch.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/sketch.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm">Black Dashboard</span>
@@ -1088,22 +1092,22 @@
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Ryan Tompson">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-1.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Romina Hadid">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-2.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Alexander Smith">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-3.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Jessica Doe">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-4.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                                 </a>
                                             </div>
                                         </td>
@@ -1138,7 +1142,7 @@
                                             <div class="media align-items-center">
                                                 <a href="#" class="avatar rounded-circle mr-3">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/angular.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/angular.jpg">
                                                 </a>
                                                 <div class="media-body">
                                                     <span class="name mb-0 text-sm">Angular Now UI Kit PRO</span>
@@ -1159,22 +1163,22 @@
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Ryan Tompson">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-1.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Romina Hadid">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-2.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Alexander Smith">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-3.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg">
                                                 </a>
                                                 <a href="#" class="avatar avatar-sm rounded-circle"
                                                    data-toggle="tooltip" data-original-title="Jessica Doe">
                                                     <img alt="Image placeholder"
-                                                         src="../../assets/img/theme/team-4.jpg">
+                                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg">
                                                 </a>
                                             </div>
                                         </td>
@@ -1245,7 +1249,7 @@
                         <div class="card-body">
                             <div class="row justify-content-between align-items-center">
                                 <div class="col">
-                                    <img src="../../assets/img/icons/cards/bitcoin.png" alt="Image placeholder"/>
+                                    <img src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/icons/cards/bitcoin.png" alt="Image placeholder"/>
                                 </div>
                                 <div class="col-auto">
                                     <span class="badge badge-lg badge-success">Active</span>

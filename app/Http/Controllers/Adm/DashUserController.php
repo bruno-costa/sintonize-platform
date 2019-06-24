@@ -3,10 +3,34 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class DashUserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function($request, $next) {
+            /**
+             * @var Request $request
+             * @var \Closure $next
+             * @var User $user
+             */
+            $user = $request->user();
+            if ($user->isAdmin()) {
+                return $next($request);
+            } else {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        '_cod' => 'radio/unauthorized'
+                    ], 401);
+                } else {
+                    return abort(401);
+                }
+            }
+        });
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +38,8 @@ class DashUserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        return view('adm.dash-user.all', compact('users'));
     }
 
     /**
@@ -24,7 +49,7 @@ class DashUserController extends Controller
      */
     public function create()
     {
-        //
+        return view('adm.dash-user.create');
     }
 
     /**

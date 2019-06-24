@@ -15,3 +15,9 @@ select:-webkit-autofill:focus {
   flex-direction: column;
   min-height: 100vh;
 }
+
+.text-overflow {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

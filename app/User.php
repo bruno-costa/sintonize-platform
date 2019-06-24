@@ -50,6 +50,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Radio::class, 'radio_users');
     }
 
+    public function avatarUrl(): ?string
+    {
+        $avatar = $this->avatar;
+        if ($avatar) {
+            return $avatar->url();
+        }
+        return null;
+    }
+
     public function isAdmin(): bool
     {
         return $this->hasOne(RoleAdmin::class)->exists();

@@ -1,5 +1,7 @@
 @inject('viewCtrl', 'App\Services\ViewStateController')
+@php($user = request()->user())
 <?php /** @var \App\Services\ViewStateController $viewCtrl */ ?>
+<?php /** @var \App\User $user */ ?>
 <!DOCTYPE html>
 <html>
 
@@ -15,10 +17,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
     <!-- Argon CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/vendor.min.css') }}" rel="stylesheet">
+    @stack('lib-styles')
+    <link href="{{ asset('css/plugins.main.min.css') }}" rel="stylesheet">
     @stack('styles')
-
-    <base href="https://demos.creative-tim.com/argon-dashboard-pro/pages/dashboards/">
 </head>
 <body class="@yield('body-class')">
 <!-- Sidenav -->
@@ -52,6 +53,23 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ $viewCtrl->activeNavItemMatch('dash-user') }}" href="#navbar-radio-collapse" data-toggle="collapse" role="button"
+                           aria-expanded="true" aria-controls="navbar-radio-collapse">
+                            <i class="fas fa-users text-teal"></i>
+                            <span class="nav-link-text">Usuário Dash</span>
+                        </a>
+                        <div class="collapse" id="navbar-radio-collapse">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item {{ $viewCtrl->activeNavItemMatch('radio') }}">
+                                    <a href="{{ route('dash-user.index') }}" class="nav-link">Lista</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">Novo</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ $viewCtrl->activeNavItemMatch('radio') }}" href="#navbar-radio-collapse" data-toggle="collapse" role="button"
                            aria-expanded="true" aria-controls="navbar-radio-collapse">
                             <i class="fas fa-podcast text-default"></i>
@@ -63,7 +81,7 @@
                                     <a href="{{ route('radio.index') }}" class="nav-link">Lista</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">Novo</a>
+                                    <a href="{{ route('radio.create') }}" class="nav-link">Novo</a>
                                 </li>
                             </ul>
                         </div>
@@ -352,7 +370,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-1.jpg"
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -372,7 +390,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-2.jpg"
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -392,7 +410,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-3.jpg"
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -412,7 +430,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-4.jpg"
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -432,7 +450,7 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="../../assets/img/theme/team-5.jpg"
+                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-5.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -511,7 +529,7 @@
                                          src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
                                 </span>
                                 <div class="media-body ml-2 d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+                                    <span class="mb-0 text-sm  font-weight-bold">{{ $user->name }}</span>
                                 </div>
                             </div>
                         </a>
@@ -586,10 +604,10 @@
                                             <div class="media align-items-center">
                                 <span class="avatar avatar-sm rounded-circle">
                                     <img alt="Image placeholder"
-                                         src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg">
+                                         src="{{ $user->avatarUrl() }}">
                                 </span>
                                                 <div class="media-body ml-2 d-none d-lg-block">
-                                                    <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+                                                    <span class="mb-0 text-sm  font-weight-bold">{{ $user->name }}</span>
                                                 </div>
                                             </div>
                                         </a>

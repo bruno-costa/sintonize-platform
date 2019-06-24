@@ -19,8 +19,10 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(User::class, function (Faker $faker) {
-    $a = Asset::newLocalFromUrl('https://api.adorable.io/avatar/' . $faker->word);
+    $url = 'https://api.adorable.io/avatars/' . $faker->randomNumber(3);
+    $a = Asset::newLocalFromUrl($url);
     $a->save();
+    dump('User> ' . $faker->name);
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
@@ -47,6 +49,7 @@ $factory->define(\App\Models\Radio::class, function (Faker $faker) {
         'http://paineldj4.com.br:10234/stream?type=.mp3',
         'http://cast2.hoost.com.br:9212/stream',
     ]));
+    dump('Radio> ' . $r->name);
     return $r->toArray();
 });
 
@@ -74,5 +77,6 @@ $factory->define(\App\Models\Content::class, function (Faker $faker) {
 
     $c->promotion($faker->randomElement([$l, $a, $t]));
 
+    dump('Content> ' . $c->text);
     return $c->toArray();
 });

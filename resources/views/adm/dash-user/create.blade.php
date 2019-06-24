@@ -1,52 +1,58 @@
 @extends('layouts.app')
 @inject('viewCtrl', 'App\Services\ViewStateController')
 <?php /** @var \App\Services\ViewStateController $viewCtrl */ ?>
-<?php /** @var \App\Models\Radio[]|\Illuminate\Support\Collection $radios */ ?>
-@php($viewCtrl->navItemActive = 'radio')
+@php($viewCtrl->navItemActive = 'dash-user')
 @push('lib-script')
-    <script src="{{ asset('dropzone.js') }}"></script>
+    <script src="{{ asset('js/plugins.dropzone.min.js') }}"></script>
+    <script src="{{ asset('js/plugins.select2.min.js') }}"></script>
+@endpush
+@push('lib-styles')
+    <link rel="stylesheet" href="{{ asset('css/plugins.select2.min.css') }}">
 @endpush
 
 
 @push('breadcrumbs')
     <li class="breadcrumb-item">
-        <a href="{{ route('radio.index') }}">Radio</a>
+        <a href="{{ route('dash-user.index') }}">Dash users</a>
     </li>
     <li class="breadcrumb-item active">
-        Criar nova radio
+        Adicionar novo usuario
     </li>
 @endpush
 
 
 @push('script')
     <script>
-      window._uploadedFile = window._uploadedFile || {}
+      window._uploadedFile = window._uploadedFile || {};
 
-      function enviarRadioSalvar (event) {
+      (function () {
+        new Vue({
+          el: '#app-form',
+          data: {
+            isAdmin: false,
+          },
+        })
+      })()
+
+      function enviarDashUserSalvar (event) {
         event.preventDefault()
-        if (!_uploadedFile.file) {
-          alert('Escolha uma avatar')
-          return
-        }
-        if (_uploadedFile.file.size >= 3000000) {
-          alert('Escolha uma avatar menor que 3MB')
-          return
-        }
         const form = event.target
         const data = new FormData(form)
-        data.append('avatar', _uploadedFile.file)
+        if (_uploadedFile.file) {
+          data.append('avatar', _uploadedFile.file)
+        }
         const buttonCarregando = $('button:disabled', form).get(0)
         const buttonEnviar = $('button:submit', form).get(0)
         buttonCarregando.hidden = false
         buttonEnviar.hidden = true
         axios({
           method: 'post',
-          url: '{{ route('radio.store') }}',
+          url: '{{ route('dash-user.store') }}',
           data,
         }).then((response) => {
           buttonCarregando.hidden = false
           if (response.data._cod === 'ok') {
-              window.location = "{{  route('radio.index') }}"
+            window.location = "{{  route('dash-user.index') }}"
           }
           else {
             throw {response}
@@ -62,7 +68,7 @@
             'radio/create/invalid_stream_url': 'Stream Url não é valida',
           }
 
-          const msg = errorsMessage[responseData._cod] || '';
+          const msg = errorsMessage[responseData._cod] || ''
           alert('Algo falhou. ' + msg)
 
           buttonCarregando.hidden = true
@@ -107,12 +113,12 @@
 @section('content')
     <div class="row">
         <div class="col col-md-8 col-lg-6 offset-md-2 offset-lg-3">
-            <div class="card">
-                <form onsubmit="enviarRadioSalvar(event)">
+            <div class="card" id="app-form">
+                <form onsubmit="enviarDashUserSalvar(event)">
                     <!-- Card header -->
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h3 class="mb-0">Cadastro da Radio</h3>
+                            <h3 class="mb-0">Cadastro do Usuário</h3>
                             <div class="ml-auto">
                                 <button class="btn btn-primary" type="submit">Salvar</button>
                                 <button class="btn btn-primary" type="button" disabled="" hidden>Enviando ...
@@ -152,23 +158,68 @@
                         </div>
                         <div class="form-group row">
                             <label for="example-color-input" class="col-md-2 col-form-label form-control-label">
-                                Cor Tema
+                                Email
                             </label>
                             <div class="col-md-10">
-                                <input class="form-control" type="color" id="example-color-input" name="themeColor"
+                                <input class="form-control" type="email" id="example-color-input" name="email"
                                        required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="example-url-input" class="col-md-2 col-form-label form-control-label">
-                                Stream url
+                                Senha
                             </label>
                             <div class="col-md-10">
-                                <input class="form-control" type="url" value="" id="example-url-input" name="streamUrl"
+                                <input class="form-control" type="text" value="senha321" id="example-url-input"
+                                       name="streamUrl"
                                        required>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="" class="col-md-2 col-form-label form-control-label text-overflow"
+                                   title="Administrador">
+                                Administrador
+                            </label>
+                            <div class="col-md-10 d-flex align-items-center">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadioInline1" name="is_admin"
+                                           class="custom-control-input" :value="false" v-model="isAdmin"
+                                    >
+                                    <label class="custom-control-label" for="customRadioInline1">Não</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadioInline2" name="is_admin"
+                                           class="custom-control-input" :value="true" v-model="isAdmin"
+                                    >
+                                    <label class="custom-control-label" for="customRadioInline2">Sim</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row" v-if="isAdmin">
+                            <label for="example-select-input" class="col-md-2 col-form-label form-control-label">
+                                Radio
+                            </label>
+                            <div class="col-md-10">
+                                <select class="form-control" id="example-select-input" data-toggle="select">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
+                </form>
+                <form>
+                    <select class="form-control" data-toggle="select" multiple data-placeholder="Select multiple options">
+                        <option>Alerts</option>
+                        <option>Badges</option>
+                        <option>Buttons</option>
+                        <option>Cards</option>
+                        <option>Forms</option>
+                        <option>Modals</option>
+                    </select>
                 </form>
             </div>
         </div>

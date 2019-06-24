@@ -5861,3 +5861,9 @@ select:-webkit-autofill:focus {
   min-height: 100vh;
 }
 
+.text-overflow {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
