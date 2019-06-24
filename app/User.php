@@ -59,6 +59,11 @@ class User extends Authenticatable
         return null;
     }
 
+    public function adminRole()
+    {
+        return $this->hasOne(RoleAdmin::class);
+    }
+
     public function isAdmin(): bool
     {
         return $this->hasOne(RoleAdmin::class)->exists();

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @inject('viewCtrl', 'App\Services\ViewStateController')
 <?php /** @var \App\Services\ViewStateController $viewCtrl */ ?>
+<?php /** @var \App\Models\Radio[] $radios */ ?>
 @php($viewCtrl->navItemActive = 'dash-user')
 @push('lib-script')
     <script src="{{ asset('js/plugins.dropzone.min.js') }}"></script>
@@ -23,13 +24,13 @@
 
 @push('script')
     <script>
-      window._uploadedFile = window._uploadedFile || {};
+      const _uploadedFile = {};
 
       (function () {
         new Vue({
           el: '#app-form',
           data: {
-            isAdmin: false,
+            isAdmin: '0',
           },
         })
       })()
@@ -57,30 +58,23 @@
           else {
             throw {response}
           }
-          // voltar
         }).catch((error) => {
           const responseData = error.response.data
 
-          const errorsMessage = {
-            'radio/create/invalid_color': 'Cor não é valida',
-            'radio/create/invalid_avatar/mimetype': 'Tipo do avatar não é uma imagem valida',
-            'radio/create/invalid_avatar/size': 'Tamanho do avatar não é valida',
-            'radio/create/invalid_stream_url': 'Stream Url não é valida',
+          let msg = []
+          if (responseData._cod === 'user-dash/create/validation') {
+            msg = Object.values(responseData.errors).reduce((cur, total) => [...total, ...cur], [])
+          } else {
+            msg = []
           }
 
-          const msg = errorsMessage[responseData._cod] || ''
-          alert('Algo falhou. ' + msg)
+          alert('Algo falhou. ' + msg.join('\n'))
 
           buttonCarregando.hidden = true
           buttonEnviar.hidden = false
         })
       }
-    </script>
-@endpush
-@push('script')
-    <script>
       (function () {
-        let _uploadedFile = window._uploadedFile || null
         let e = $('[data-toggle="dropzone"]'), a = $('.dz-preview')
         if (!e.length) {
           return
@@ -114,7 +108,7 @@
     <div class="row">
         <div class="col col-md-8 col-lg-6 offset-md-2 offset-lg-3">
             <div class="card" id="app-form">
-                <form onsubmit="enviarDashUserSalvar(event)">
+                <form onsubmit="enviarDashUserSalvar(event)" novalidate>
                     <!-- Card header -->
                     <div class="card-header">
                         <div class="d-flex align-items-center">
@@ -171,7 +165,7 @@
                             </label>
                             <div class="col-md-10">
                                 <input class="form-control" type="text" value="senha321" id="example-url-input"
-                                       name="streamUrl"
+                                       name="password"
                                        required>
                             </div>
                         </div>
@@ -182,44 +176,32 @@
                             </label>
                             <div class="col-md-10 d-flex align-items-center">
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="customRadioInline1" name="is_admin"
-                                           class="custom-control-input" :value="false" v-model="isAdmin"
+                                    <input type="radio" id="customRadioInline1" name="isAdmin" checked
+                                           class="custom-control-input" value="0" v-model="isAdmin"
                                     >
                                     <label class="custom-control-label" for="customRadioInline1">Não</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="customRadioInline2" name="is_admin"
-                                           class="custom-control-input" :value="true" v-model="isAdmin"
+                                    <input type="radio" id="customRadioInline2" name="isAdmin"
+                                           class="custom-control-input" value="1" v-model="isAdmin"
                                     >
                                     <label class="custom-control-label" for="customRadioInline2">Sim</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group row" v-if="isAdmin">
+                        <div class="form-group row" v-if="isAdmin === '0'">
                             <label for="example-select-input" class="col-md-2 col-form-label form-control-label">
                                 Radio
                             </label>
                             <div class="col-md-10">
-                                <select class="form-control" id="example-select-input" data-toggle="select">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                <select class="form-control" id="example-select-input" name="radioId">
+                                    @foreach($radios as $radio)
+                                        <option value="{{ $radio->id }}">{{ $radio->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                     </div>
-                </form>
-                <form>
-                    <select class="form-control" data-toggle="select" multiple data-placeholder="Select multiple options">
-                        <option>Alerts</option>
-                        <option>Badges</option>
-                        <option>Buttons</option>
-                        <option>Cards</option>
-                        <option>Forms</option>
-                        <option>Modals</option>
-                    </select>
                 </form>
             </div>
         </div>
