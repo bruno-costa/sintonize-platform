@@ -5,10 +5,6 @@
 @php($viewCtrl->navItemActive = 'dash-user')
 @push('lib-script')
     <script src="{{ asset('js/plugins.dropzone.min.js') }}"></script>
-    <script src="{{ asset('js/plugins.select2.min.js') }}"></script>
-@endpush
-@push('lib-styles')
-    <link rel="stylesheet" href="{{ asset('css/plugins.select2.min.css') }}">
 @endpush
 
 

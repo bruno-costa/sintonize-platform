@@ -4,7 +4,7 @@
 <?php /** @var \App\Models\Radio[]|\Illuminate\Support\Collection $radios */ ?>
 @php($viewCtrl->navItemActive = 'radio')
 @push('lib-script')
-    <script src="{{ asset('dropzone.js') }}"></script>
+    <script src="{{ asset('js/plugins.dropzone.min.js') }}"></script>
 @endpush
 
 

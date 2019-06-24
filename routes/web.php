@@ -10,6 +10,7 @@ Route::get('/asset/{token}', AssetController::class)->name('asset');
 Route::namespace('App\Http\Controllers')->group(function () {
     Auth::routes();
 });
+Route::post('block', '\App\Http\Controllers\Auth\LoginController@blockLogout')->name('block');
 
 Route::middleware('auth')->group(function() {
     Route::prefix('adm')->group(function() {

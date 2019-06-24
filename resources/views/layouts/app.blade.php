@@ -2,7 +2,7 @@
 @php($user = request()->user())
 <?php /** @var \App\Services\ViewStateController $viewCtrl */ ?>
 <?php /** @var \App\User $user */ ?>
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html>
 
 <head>
@@ -52,60 +52,82 @@
                             <span class="nav-link-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ $viewCtrl->activeNavItemMatch('dash-user') }}" href="#navbar-radio-collapse" data-toggle="collapse" role="button"
-                           aria-expanded="true" aria-controls="navbar-radio-collapse">
-                            <i class="fas fa-users text-teal"></i>
-                            <span class="nav-link-text">Usuário Dash</span>
-                        </a>
-                        <div class="collapse" id="navbar-radio-collapse">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $viewCtrl->activeNavItemMatch('radio') }}">
-                                    <a href="{{ route('dash-user.index') }}" class="nav-link">Lista</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">Novo</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ $viewCtrl->activeNavItemMatch('radio') }}" href="#navbar-radio-collapse" data-toggle="collapse" role="button"
-                           aria-expanded="true" aria-controls="navbar-radio-collapse">
-                            <i class="fas fa-podcast text-default"></i>
-                            <span class="nav-link-text">Radio</span>
-                        </a>
-                        <div class="collapse" id="navbar-radio-collapse">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item {{ $viewCtrl->activeNavItemMatch('radio') }}">
-                                    <a href="{{ route('radio.index') }}" class="nav-link">Lista</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('radio.create') }}" class="nav-link">Novo</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#navbar-conteudo-collapse" data-toggle="collapse" role="button"
-                           aria-expanded="true" aria-controls="navbar-conteudo-collapse">
-                            <i class="fas fa-icons"></i>
-                            <span class="nav-link-text">Conteudo</span>
-                        </a>
-                        <div class="collapse" id="navbar-conteudo-collapse">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="{{ route('home') }}" class="nav-link">Dashboard</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">Alternative</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
+                    @if($user->isAdmin())
+                        <li class="nav-item">
+                            <a class="nav-link {{ $viewCtrl->activeNavItemMatch('dash-user') }}"
+                               href="#navbar-dash-user-collapse" data-toggle="collapse" role="button"
+                               aria-expanded="true" aria-controls="navbar-dash-user-collapse">
+                                <i class="fas fa-users text-teal"></i>
+                                <span class="nav-link-text">Usuário Dash</span>
+                            </a>
+                            <div class="collapse" id="navbar-dash-user-collapse">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item {{ $viewCtrl->activeNavItemMatch('dash-user') }}">
+                                        <a href="{{ route('dash-user.index') }}" class="nav-link">Todos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('dash-user.create') }}" class="nav-link">Novo</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ $viewCtrl->activeNavItemMatch('radio') }}"
+                               href="#navbar-radio-collapse" data-toggle="collapse" role="button"
+                               aria-expanded="true" aria-controls="navbar-radio-collapse">
+                                <i class="fas fa-podcast text-warning"></i>
+                                <span class="nav-link-text">Radio</span>
+                            </a>
+                            <div class="collapse" id="navbar-radio-collapse">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item {{ $viewCtrl->activeNavItemMatch('radio') }}">
+                                        <a href="{{ route('radio.index') }}" class="nav-link">Todos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('radio.create') }}" class="nav-link">Novo</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#navbar-conteudo-collapse" data-toggle="collapse" role="button"
+                               aria-expanded="true" aria-controls="navbar-conteudo-collapse">
+                                <i class="fas fa-icons text-default"></i>
+                                <span class="nav-link-text">Conteudo</span>
+                            </a>
+                            <div class="collapse" id="navbar-conteudo-collapse">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('home') }}" class="nav-link">Todos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('home') }}" class="nav-link">Novo</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="#navbar-conteudo-collapse" data-toggle="collapse" role="button"
+                               aria-expanded="true" aria-controls="navbar-conteudo-collapse">
+                                <i class="fas fa-icons text-default"></i>
+                                <span class="nav-link-text">Conteudo</span>
+                            </a>
+                            <div class="collapse show" id="navbar-conteudo-collapse">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a href="{{ route('home') }}" class="nav-link">Todos</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">Novo</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    @endif
                 </ul>
                 <!-- Nav items -->
-                <div>
+                <div hidden>
                     <!-- Divider -->
                     <hr class="my-3">
                     <ul class="navbar-nav">
@@ -278,38 +300,39 @@
                             </a>
                         </li>
                     </ul>
+
+                    <!-- Divider -->
+                    <hr class="my-3">
+                    <!-- Heading -->
+                    <h6 class="navbar-heading p-0 text-muted">Documentation</h6>
+                    <!-- Navigation -->
+                    <ul class="navbar-nav mb-md-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../docs/getting-started/overview.html" target="_blank">
+                                <i class="fas fa-rocket"></i>
+                                <span class="nav-link-text">Getting started</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../docs/foundation/colors.html" target="_blank">
+                                <i class="fas fa-palette"></i>
+                                <span class="nav-link-text">Foundation</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../docs/components/alerts.html" target="_blank">
+                                <i class="fas fa-wrench"></i>
+                                <span class="nav-link-text">Components</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../../docs/plugins/charts.html" target="_blank">
+                                <i class="fas fa-puzzle-piece"></i>
+                                <span class="nav-link-text">Plugins</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <!-- Divider -->
-                <hr class="my-3">
-                <!-- Heading -->
-                <h6 class="navbar-heading p-0 text-muted">Documentation</h6>
-                <!-- Navigation -->
-                <ul class="navbar-nav mb-md-3">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../docs/getting-started/overview.html" target="_blank">
-                            <i class="fas fa-rocket"></i>
-                            <span class="nav-link-text">Getting started</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../docs/foundation/colors.html" target="_blank">
-                            <i class="fas fa-palette"></i>
-                            <span class="nav-link-text">Foundation</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../docs/components/alerts.html" target="_blank">
-                            <i class="fas fa-wrench"></i>
-                            <span class="nav-link-text">Components</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../../docs/plugins/charts.html" target="_blank">
-                            <i class="fas fa-puzzle-piece"></i>
-                            <span class="nav-link-text">Plugins</span>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
@@ -370,7 +393,8 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg"
+                                            <img alt="Image placeholder"
+                                                 src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-1.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -390,7 +414,8 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg"
+                                            <img alt="Image placeholder"
+                                                 src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-2.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -410,7 +435,8 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg"
+                                            <img alt="Image placeholder"
+                                                 src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-3.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -430,7 +456,8 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg"
+                                            <img alt="Image placeholder"
+                                                 src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-4.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -450,7 +477,8 @@
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <!-- Avatar -->
-                                            <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-5.jpg"
+                                            <img alt="Image placeholder"
+                                                 src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/theme/team-5.jpg"
                                                  class="avatar rounded-circle">
                                         </div>
                                         <div class="col ml--2">
@@ -537,24 +565,24 @@
                             <div class="dropdown-header noti-title">
                                 <h6 class="text-overflow m-0">Bem vindo!</h6>
                             </div>
-                            <a href="#!" class="dropdown-item">
+                            <a hidden href="#!" class="dropdown-item">
                                 <i class="fas fa-fw fa-user-edit"></i>
                                 <span>Meu perfil</span>
                             </a>
-                            <a href="#!" class="dropdown-item">
+                            <a hidden href="#!" class="dropdown-item">
                                 <i class="fas fa-fw fa-cogs"></i>
                                 <span>Settings</span>
                             </a>
-                            <a href="#!" class="dropdown-item">
+                            <a hidden href="#!" class="dropdown-item">
                                 <i class="fas fa-fw fa-history"></i>
                                 <span>Activity</span>
                             </a>
-                            <a href="#!" class="dropdown-item">
+                            <a hidden href="#!" class="dropdown-item">
                                 <i class="fas fa-fw fa-question-circle"></i>
                                 <span>Support</span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="">
+                            <form id="logout-form" action="{{ route('block') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn-link dropdown-item">
                                     <i class="fas fa-fw fa-user-lock"></i>
@@ -615,25 +643,24 @@
                                             <div class="dropdown-header noti-title">
                                                 <h6 class="text-overflow m-0">Bem vindo!</h6>
                                             </div>
-                                            <a href="#!" class="dropdown-item">
+                                            <a hidden href="#!" class="dropdown-item">
                                                 <i class="fas fa-fw fa-user-edit"></i>
                                                 <span>Meu perfil</span>
                                             </a>
-                                            <a href="#!" class="dropdown-item">
+                                            <a hidden href="#!" class="dropdown-item">
                                                 <i class="fas fa-fw fa-cogs"></i>
                                                 <span>Settings</span>
                                             </a>
-                                            <a href="#!" class="dropdown-item">
+                                            <a hidden href="#!" class="dropdown-item">
                                                 <i class="fas fa-fw fa-history"></i>
                                                 <span>Activity</span>
                                             </a>
-                                            <a href="#!" class="dropdown-item">
+                                            <a hidden href="#!" class="dropdown-item">
                                                 <i class="fas fa-fw fa-question-circle"></i>
                                                 <span>Support</span>
                                             </a>
                                             <div class="dropdown-divider"></div>
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                  style="">
+                                            <form id="logout-form" action="{{ route('block') }}" method="POST">
                                                 @csrf
                                                 <button type="submit" class="btn-link dropdown-item">
                                                     <i class="fas fa-fw fa-user-lock"></i>

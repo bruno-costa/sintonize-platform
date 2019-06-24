@@ -105,7 +105,7 @@ class DashUserController extends Controller
             return response()->json([
                 '_cod' => 'user-dash/create/*',
                 'errs' => [$e->getMessage()]
-            ]);
+            ], 500);
         }
         return response()->json([
             '_cod' => 'ok',
@@ -155,6 +155,18 @@ class DashUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+        } catch (\Throwable $e) {
+            return response()->json([
+                '_cod' => 'user-dash/destroy/*',
+                'errs' => [$e->getMessage()]
+            ], 500);
+        }
+
+        return response()->json([
+            '_cod' => 'ok',
+        ]);
     }
 }

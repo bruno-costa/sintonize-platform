@@ -95,7 +95,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
     <!-- Argon CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/vendor.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/plugins.main.min.css') }}" rel="stylesheet">
 </head>
 
 <body class="bg-default">
@@ -196,9 +196,6 @@
 </main>
 
 <script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/vendor.min.js') }}"></script>
-<!-- Demo JS - remove this in your project -->
-<script src="https://demos.creative-tim.com/argon-dashboard-pro/assets/js/demo.min.js"></script>
 </body>
 
 </html>

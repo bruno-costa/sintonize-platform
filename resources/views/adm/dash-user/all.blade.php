@@ -14,6 +14,40 @@
     </style>
 @endpush
 
+@push('script')
+    <script>
+      (function () {
+        const path = '{{ route('dash-user.destroy', ':UID') }}'
+
+        new Vue({
+          el: '#table-users-dash',
+          methods: {
+            deleteUser (uid) {
+              const response = confirm('Deseja remover esse usuario?')
+              console.log(path.replace(':UID', uid), response)
+              if (response) {
+                axios({
+                  method: 'delete',
+                  url: path.replace(':UID', uid),
+                }).then((response) => {
+                  if (response.data._cod === 'ok') {
+                    window.location = window.location
+                  }
+                  else {
+                    throw {response}
+                  }
+                }).catch((error) => {
+                  // const responseData = error.response.data
+                  alert('Algo falhou. ')
+                })
+              }
+            },
+          },
+        })
+      })()
+    </script>
+@endpush
+
 @push('breadcrumbs')
     <li class="breadcrumb-item active">Dash users</li>
 @endpush
@@ -36,12 +70,13 @@
                     </div>
                     <div class="table-responsive">
                         <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
+                        <table class="table align-items-center table-flush" id="table-users-dash">
                             <thead class="thead-light">
                             <tr>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Radios</th>
                                 <th scope="col">Email</th>
+                                <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -74,6 +109,11 @@
                                     </td>
                                     <td>
                                         {{ $user->email }}
+                                    </td>
+                                    <td>
+                                        <a href="" @click.prevent="deleteUser({{ $user->id }})">
+                                            <span class="text-danger"><i class="fas fa-trash mr-2"></i> Remover</span>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
