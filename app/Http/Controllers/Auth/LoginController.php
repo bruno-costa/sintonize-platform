@@ -48,6 +48,19 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    protected function authenticated(Request $request, $user)
+    {
+        /** @var \App\User $user */
+        try {
+            if (!$user->isAdmin()) {
+                session()->put('radio_id', $user->radios()->firstOrFail()->id);
+            }
+        } catch (\Throwable $t) {
+            return redirect()->action('Auth\LoginController@blockLogout');
+        }
+        return redirect()->route('home');
+    }
+
     public function blockLogout(Request $request)
     {
         $userId = optional($request->user())->id;

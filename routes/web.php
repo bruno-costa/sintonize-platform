@@ -4,6 +4,7 @@ use App\Http\Controllers\Adm\DashUserController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Adm\RadioController;
+use App\Http\Controllers\UserRadioContentController;
 
 Route::get('/asset/{token}', AssetController::class)->name('asset');
 
@@ -19,4 +20,6 @@ Route::middleware('auth')->group(function() {
     });
     Route::get('/', HomeController::class . '@index')->name('home');
     Route::get('/home', HomeController::class . '@index');
+
+    Route::resource('content', UserRadioContentController::class);
 });

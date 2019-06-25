@@ -1,8 +1,8 @@
+<!DOCTYPE html>
 @inject('viewCtrl', 'App\Services\ViewStateController')
 @php($user = request()->user())
 <?php /** @var \App\Services\ViewStateController $viewCtrl */ ?>
 <?php /** @var \App\User $user */ ?>
-        <!DOCTYPE html>
 <html>
 
 <head>
@@ -108,17 +108,18 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="#navbar-conteudo-collapse" data-toggle="collapse" role="button"
-                               aria-expanded="true" aria-controls="navbar-conteudo-collapse">
+                            <a class="nav-link {{ $viewCtrl->activeNavItemMatch('radio-content') }}"
+                               href="#navbar-na-conteudo-collapse" data-toggle="collapse" role="button"
+                               aria-expanded="true" aria-controls="navbar-na-conteudo-collapse">
                                 <i class="fas fa-icons text-default"></i>
                                 <span class="nav-link-text">Conteudo</span>
                             </a>
-                            <div class="collapse show" id="navbar-conteudo-collapse">
+                            <div class="collapse show" id="navbar-na-conteudo-collapse">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="{{ route('home') }}" class="nav-link">Todos</a>
+                                        <a href="{{ route('content.index') }}" class="nav-link">Todos</a>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="nav-item" hidden>
                                         <a href="#" class="nav-link">Novo</a>
                                     </li>
                                 </ul>
