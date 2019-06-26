@@ -20,6 +20,12 @@ class RegisterController extends Controller
     {
         /** @var AppUser $user */
         $user = app(FacebookGuard::class)->user($request);
+        if ($user == null) {
+            return response()->json([
+                '_cod' => 'register/validation/token',
+                'msg' => 'token invalid'
+            ], 422);
+        }
 
         if (!$user->exists) {
              $user->id = Str::uuid();
