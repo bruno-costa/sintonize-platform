@@ -3,10 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Radio;
+use App\Repositories\Promotions\PromotionAnswer;
+use App\Repositories\Promotions\PromotionLink;
+use App\Repositories\Promotions\PromotionTest;
 use Illuminate\Http\Request;
 
 class UserRadioContentController extends Controller
 {
+    private $radio;
+
+    public function __construct()
+    {
+        dd(session()->all());
+        $this->radio = Radio::findOrFail(session('radio_id'));
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +25,9 @@ class UserRadioContentController extends Controller
      */
     public function index()
     {
-        $radio = Radio::findOrFail(session('radio_id'));
-        return view('user.radio-content.all', compact('radio'));
+        return view('user.radio-content.all', [
+            'radio' => $this->radio
+        ]);
     }
 
     /**
@@ -25,7 +37,16 @@ class UserRadioContentController extends Controller
      */
     public function create()
     {
-        //
+        $typeContent = PromotionLink::getType();
+        if (request()->has(PromotionTest::getType())) {
+            $typeContent = PromotionTest::getType();
+        } else if (request()->has(PromotionAnswer::getType())) {
+            $typeContent = PromotionAnswer::getType();
+        }
+        return view('user.radio-content.create', [
+            'radio' => $this->radio,
+            'typeContent' => $typeContent,
+        ]);
     }
 
     /**

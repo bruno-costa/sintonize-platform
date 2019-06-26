@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Middleware\UserRadioMiddleware;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -52,9 +53,7 @@ class LoginController extends Controller
     {
         /** @var \App\User $user */
         try {
-            if (!$user->isAdmin()) {
-                session()->put('radio_id', $user->radios()->firstOrFail()->id);
-            }
+            UserRadioMiddleware::handleSession($user);
         } catch (\Throwable $t) {
             return redirect()->action('Auth\LoginController@blockLogout');
         }

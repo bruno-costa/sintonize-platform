@@ -23,7 +23,6 @@
 @endpush
 
 @section('header-content')
-
     <div class="card">
         <div class="card-header">
             <h3 class="my-0">
@@ -32,11 +31,17 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col"><a href="" class="btn btn-block btn-default border-0 bg-gradient-orange shadom">Conteúdo
-                        Test</a></div>
-                <div class="col"><a href="" class="btn btn-block btn-default border-0 bg-gradient-red shadom ">Conteúdo
-                        Response</a></div>
-                <div class="col"><a href="" class="btn btn-block btn-default border-0 bg-gradient-green shadom ">Conteúdo Link</a>
+                <div class="col">
+                    <a href="{{ route('content.create', [\App\Repositories\Promotions\PromotionTest::getType()]) }}"
+                       class="btn btn-block btn-default border-0 bg-gradient-orange shadom">Conteúdo Test</a>
+                </div>
+                <div class="col">
+                    <a href="{{ route('content.create', [\App\Repositories\Promotions\PromotionAnswer::getType()]) }}"
+                       class="btn btn-block btn-default border-0 bg-gradient-red shadom ">Conteúdo Response</a>
+                </div>
+                <div class="col">
+                    <a href="{{ route('content.create', [\App\Repositories\Promotions\PromotionLink::getType()]) }}"
+                       class="btn btn-block btn-default border-0 bg-gradient-green shadom ">Conteúdo Link</a>
                 </div>
             </div>
         </div>
