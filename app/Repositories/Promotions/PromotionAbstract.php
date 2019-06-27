@@ -5,13 +5,18 @@ namespace App\Repositories\Promotions;
 use App\Models\AppUser;
 use App\Models\Content;
 use App\Models\ContentParticipation;
+use App\Repositories\PremiumPromotion;
 
-abstract class PromotionAbstract implements \Serializable
+abstract class PromotionAbstract
 {
     /** @var Content */
     protected $content;
+    /** @var PremiumPromotion|null */
+    protected $premium;
 
     static abstract public function getType(): string;
+    protected abstract function getArraySerialized(): array;
+    protected abstract function setArraySerialized(array $data);
 
     public function createParticipation(ContentParticipation $participation, array $data)
     {
@@ -27,6 +32,7 @@ abstract class PromotionAbstract implements \Serializable
 
     protected function boot()
     {
+        // pass
     }
 
     public function registerParticipation(array $data, AppUser $user)
@@ -41,35 +47,31 @@ abstract class PromotionAbstract implements \Serializable
         $participation->save();
     }
 
-    protected function getArraySerialized(): array
-    {
-        return [];
-    }
-
-    protected function setArraySerialized(array $data)
-    {
-    }
-
     public function dataJsonParticipations(AppUser $user): array
     {
         return [];
     }
 
-    public function serialize()
+    public function createPremium(array $data)
     {
-        return json_encode($this->getArraySerialized());
-    }
-
-    public function unserialize($serialized)
-    {
-        $this->setArraySerialized(json_decode($serialized, true));
+        $this->premium = new PremiumPromotion();
+        $this->premium
+            ->setName($data['premiumName'] ?? $data['name'] ?? null)
+            ->setRule($data['premiumRule'] ?? $data['rule'] ?? null)
+            ->setValidAt($data['premiumValidAt'] ?? $data['validAt'] ?? null)
+            ->setRewardAmount($data['premiumRewardAmount'] ?? $data['rewardAmount'] ?? null)
+            ->setWinMethod($data['premiumWinMethod'] ?? $data['winMethod'] ?? null)
+            ->setLotteryAt($data['premiumLotteryAt'] ?? $data['lotteryAt'] ?? null);
     }
 
     public function storeData(): array
     {
         return [
             '_class' => static::class,
-            '_data' => $this->getArraySerialized()
+            '_data' => $this->getArraySerialized(),
+            '_common' => [
+                'premium' => optional($this->premium)->toArray(),
+            ],
         ];
     }
 
@@ -78,6 +80,28 @@ abstract class PromotionAbstract implements \Serializable
         /** @var PromotionAbstract $obj */
         $obj = new $data['_class']($content);
         $obj->setArraySerialized($data['_data']);
+        $common = $data['_common'] ?? [];
+        if (isset($common['premium'])) {
+            $obj->createPremium($common['premium']);
+        }
         return $obj;
+    }
+
+    /**
+     * @return PremiumPromotion|null
+     */
+    public function getPremium(): ?PremiumPromotion
+    {
+        return $this->premium;
+    }
+
+    /**
+     * @param PremiumPromotion|null $premium
+     * @return PromotionAbstract
+     */
+    public function setPremium(?PremiumPromotion $premium): PromotionAbstract
+    {
+        $this->premium = $premium;
+        return $this;
     }
 }

@@ -7,6 +7,11 @@
 \App\Repositories\Promotions\PromotionAnswer::getType() => 'bg-gradient-red text-white',
 \App\Repositories\Promotions\PromotionLink::getType() => 'bg-gradient-green text-white'
 ])
+@php($degName = [
+\App\Repositories\Promotions\PromotionTest::getType() => 'Enquete',
+\App\Repositories\Promotions\PromotionAnswer::getType() => 'Resposta',
+\App\Repositories\Promotions\PromotionLink::getType() => 'Link'
+])
 
 @push('styles')
     <style>
@@ -16,6 +21,39 @@
             object-fit: cover;
         }
     </style>
+@endpush
+
+@push('script')
+    <script>
+      (function () {
+        const path = '{{ route('content.destroy', ':UID') }}'
+
+        new Vue({
+          el: '#table-content-radio',
+          methods: {
+            deleteContent (uid) {
+              const response = confirm('Deseja remover esse Conteudo?')
+              if (response) {
+                axios({
+                  method: 'delete',
+                  url: path.replace(':UID', uid),
+                }).then((response) => {
+                  if (response.data._cod === 'ok') {
+                    window.location = window.location
+                  }
+                  else {
+                    throw {response}
+                  }
+                }).catch((error) => {
+                  // const responseData = error.response.data
+                  alert('Algo falhou. ')
+                })
+              }
+            },
+          },
+        })
+      })()
+    </script>
 @endpush
 
 @push('breadcrumbs')
@@ -33,15 +71,15 @@
             <div class="row">
                 <div class="col">
                     <a href="{{ route('content.create', [\App\Repositories\Promotions\PromotionTest::getType()]) }}"
-                       class="btn btn-block btn-default border-0 bg-gradient-orange shadom">Conteúdo Test</a>
+                       class="btn btn-block btn-default border-0 bg-gradient-orange shadom">Promoção Enquete</a>
                 </div>
                 <div class="col">
                     <a href="{{ route('content.create', [\App\Repositories\Promotions\PromotionAnswer::getType()]) }}"
-                       class="btn btn-block btn-default border-0 bg-gradient-red shadom ">Conteúdo Response</a>
+                       class="btn btn-block btn-default border-0 bg-gradient-red shadom ">Promoção Resposta</a>
                 </div>
                 <div class="col">
                     <a href="{{ route('content.create', [\App\Repositories\Promotions\PromotionLink::getType()]) }}"
-                       class="btn btn-block btn-default border-0 bg-gradient-green shadom ">Conteúdo Link</a>
+                       class="btn btn-block btn-default border-0 bg-gradient-green shadom ">Divulgar Link</a>
                 </div>
             </div>
         </div>
@@ -62,12 +100,14 @@
                     </div>
                     <div class="table-responsive">
                         <!-- Projects table -->
-                        <table class="table align-items-center table-flush">
+                        <table class="table align-items-center table-flush" id="table-content-radio">
                             <thead class="thead-light">
                             <tr>
                                 <th scope="col">Nome</th>
+                                <th scope="col">Patrocinios</th>
                                 <th scope="col">Participações</th>
                                 <th scope="col">Data Criação</th>
+                                <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -80,18 +120,39 @@
                                                 <img alt="Image placeholder" src="{{ $content->imageUrl() }}">
                                             </span>
                                             <div class="media-body">
-                                                <span class="badge {{ $bgDeg[$content->promotion()->getType()] ?? 'badge-default' }}">{{ $content->promotion()->getType() }}</span>
+                                                <span class="badge {{ $bgDeg[$content->promotion()->getType()] ?? 'badge-default' }}">{{ $degName[$content->promotion()->getType()] ?? '' }}</span>
                                                 <br>
                                                 <span class="name mb-0 text-sm text-dark">{{ $content->text }}</span>
                                             </div>
                                         </a>
                                     </th>
                                     <td>
+                                        @php($advertiser = $content->advertiser())
+                                        <?php /** @var \App\Models\Advertiser $advertiser */ ?>
+                                        @if($advertiser)
+                                            <div class="media align-items-center">
+                                                <span class="avatar rounded-circle mr-3 shadow">
+                                                    <img alt="Image placeholder" src="{{ $advertiser->avatarUrl() }}">
+                                                </span>
+                                                <div class="media-body">
+                                                    {{ $advertiser->name }}
+                                                </div>
+                                            </div>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
                                         {{ $content->participations()->count() }}
-                                        <i class="fas fa-arrow-up text-success mr-3"></i>
+                                        <i class="fas fa-arrow-up text-success mr-3" hidden></i>
                                     </td>
                                     <td>
                                         {{ $content->created_at->format('d/m/Y') }}
+                                    </td>
+                                    <td>
+                                        <a href="" @click.prevent="deleteContent('{{ $content->id }}')">
+                                            <span class="text-danger"><i class="fas fa-trash mr-2"></i> Remover</span>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach

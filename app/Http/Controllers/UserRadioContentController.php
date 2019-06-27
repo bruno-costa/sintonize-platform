@@ -104,12 +104,22 @@ class UserRadioContentController extends Controller
                 'errs' => [$e->getMessage()]
             ], 500);
         }
-        dd($content);
+
+        try {
+            if ($data['advertiserId']) {
+                $content->advertisers()->attach($data['advertiserId']);
+            }
+        } catch (\Throwable $e) {
+            $content->delete();
+            return response()->json([
+                '_cod' => 'radio-content/create/advertiserId/invalid',
+            ], 422);
+        }
 
         return response()->json([
             '_cod' => 'ok',
             'contentId' => $content->id
-        ], 500);
+        ]);
     }
 
     public function handlePromotion(array $data, Content $content): PromotionAbstract
@@ -135,6 +145,9 @@ class UserRadioContentController extends Controller
                 $promotion->addRawOption($option, in_array($index, $testAnswersCorrectly));
             }
         }
+
+        $promotion->createPremium($data);
+
         return $promotion;
     }
 
@@ -180,6 +193,29 @@ class UserRadioContentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $content = Content::find($id);
+        if ($content === null) {
+            return response()->json([
+                '_cod' => 'radio-content/destroy/not-found',
+            ], 404);
+        }
+
+        if ($content->radio_id !== session('radio_id')) {
+            return response()->json([
+                '_cod' => 'radio-content/destroy/unauthorized',
+            ], 401);
+        }
+
+        try {
+            $content->delete();
+        } catch (\Throwable $t) {
+            return response()->json([
+                '_cod' => 'radio-content/destroy/*',
+                'err' => [$t->getMessage()]
+            ], 500);
+        }
+        return response()->json([
+            '_cod' => 'ok',
+        ]);
     }
 }

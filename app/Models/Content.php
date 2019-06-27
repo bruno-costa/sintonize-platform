@@ -27,10 +27,13 @@ class Content extends Model
 
     public function advertisers()
     {
-        return $this->hasMany(Advertiser::class);
+        return $this->belongsToMany(Advertiser::class, 'content_advertisers');
     }
 
-    public function advertiser()
+    /**
+     * @return Advertiser|null
+     */
+    public function advertiser(): ?Advertiser
     {
         return $this->advertisers()->first();
     }

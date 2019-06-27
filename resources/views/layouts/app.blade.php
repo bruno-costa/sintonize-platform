@@ -28,7 +28,7 @@
         <!-- Brand -->
         <div class="sidenav-header d-flex align-items-center">
             <a class="navbar-brand" href="#">
-                <img src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/brand/blue.png"
+                <img src="{{ asset('images/logo.svg') }}"
                      class="navbar-brand-img" alt="...">
             </a>
             <div class="ml-auto">
@@ -683,6 +683,7 @@
     <div class="container-fluid mt--6 flex-column d-flex flex-grow-1">
     @yield('content')
     <!-- Footer -->
+        {{--
         <footer class="footer pt-0 mt-auto">
             <div class="row align-items-center justify-content-lg-between">
                 <div class="col-lg-6">
@@ -710,6 +711,7 @@
                 </div>
             </div>
         </footer>
+        --}}
     </div>
 </div>
 

@@ -103,14 +103,28 @@
                 url: '{{ route('content.store') }}',
                 data,
               }).
-                then(response => console.log(response)).
-                catch(err => console.log(err)).
-                finally(r => {
-                  console.table([...data])
+                then(response => {
+                  if (response.data._cod === 'ok') {
+                    window.location = "{{  route('content.index') }}"
+                  }
+                  else {
+                    throw {response}
+                  }
+                }).
+                catch(error => {
+                  const responseData = error.response.data
+
+                  let msg = []
+                  if (responseData._cod === 'radio-content/create/validation') {
+                    msg = Object.values(responseData.errors).reduce((cur, total) => [...total, ...cur], [])
+                  } else {
+                    msg = []
+                  }
+
+                  alert('Algo falhou. ' + msg.join('\n'))
+
                   this.enviando = false
-                  console.log(r)
                 })
-              // coverMedia
             },
             showModalAdvertiserForm () {
               this.$advertiserForm.modal('show')
@@ -296,11 +310,21 @@
                                 <hr class="my-6">
                                 <h2>Detalhes do Link</h2>
                                 <label for="link-label-input" class="col-form-label form-control-label">
-                                    Label do botão
+                                    Texto do botão
                                 </label>
                                 <div>
-                                    <input class="form-control" type="text" value="Veja Aqui" id="link-label-input"
-                                           name="linkLabel" required>
+                                    <select class="form-control" name="linkLabel" id="link-label-input">
+                                        <option>Saiba mais</option>
+                                        <option>Veja aqui</option>
+                                        <option>Acesse agora</option>
+                                        <option>Entre aqui</option>
+                                        <option>Comprar agora</option>
+                                        <option>Cadastre-se</option>
+                                        <option>Reservar agora</option>
+                                        <option>Solicitar agora</option>
+                                        <option>Obter oferta</option>
+                                        <option>Ajudar</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -318,11 +342,16 @@
                             <h2>Detalhes da pergunta</h2>
                             <div class="form-group">
                                 <label for="answer-label-input" class="col-form-label form-control-label">
-                                    Label do botão
+                                    Texto do botão
                                 </label>
                                 <div>
-                                    <input class="form-control" type="text" value="Responda agora!"
-                                           id="answer-label-input" name="answerLabel" required>
+                                    <select class="form-control" id="answer-label-input" name="answerLabel" required>
+                                        <option>Responder</option>
+                                        <option>Responda agora</option>
+                                        <option>Eu sei a resposta</option>
+                                        <option>Eu acho que ...</option>
+                                        <option>Ajudar</option>
+                                    </select>
                                 </div>
                             </div>
                             @break

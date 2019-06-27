@@ -31,14 +31,14 @@ class RadioContentController extends Controller
 
         return response()->json([
             '_cod' => 'ok',
-            'contents' => $radio->contents->map(function (Content $content) use ($user) {
+            'contents' => $radio->contents()->orderByDesc('created_at')->get()->map(function (Content $content) use ($user) {
                 return [
                     'id' => $content->id,
                     'postedAt' => $content->created_at,
                     'text' => $content->text,
                     'imageUrl' => $content->imageUrl(),
                     'advertiser' => $this->getAdvertiser($content),
-                    'rulesText' => $content->rulesText(),
+                    'premium' => optional(optional($content->promotion())->getPremium())->toArray(),
                     'action' => $this->getContentAction($content, $user),
                     'winCode' => $content->winCode(),
                 ];
@@ -51,7 +51,7 @@ class RadioContentController extends Controller
         $promotion = $content->promotion();
         if ($promotion) {
             $type = [
-                'type' => $promotion->getType()
+                'type' => $promotion->getType(),
             ];
             return $type + $promotion->dataJsonParticipations($user);
         }
@@ -60,11 +60,11 @@ class RadioContentController extends Controller
 
     public function getAdvertiser(Content $content)
     {
-        $advertiser = null;
+        $advertiser = $content->advertiser();
         return $advertiser ? [
-            'name' => '',
-            'imageUrl' => '',
-            'url' => '',
+            'name' => $advertiser->name,
+            'imageUrl' => $advertiser->avatarUrl(),
+            'url' => $advertiser->url,
         ] : null;
     }
 }

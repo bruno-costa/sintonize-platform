@@ -15,6 +15,15 @@ class Advertiser extends Model
 
     public function avatar()
     {
-        $this->belongsTo(Asset::class, 'avatar_asset_id');
+        return $this->belongsTo(Asset::class, 'avatar_asset_id');
+    }
+
+    public function avatarUrl(): ?string
+    {
+        $img = $this->avatar;
+        if ($img) {
+            return $img->url();
+        }
+        return null;
     }
 }
