@@ -18,6 +18,9 @@
             <div class="col-lg-5 col-md-7">
                 <div class="card bg-secondary border-0 mb-0">
                     <div class="card-body px-lg-5 py-lg-5">
+                        <div class="mb-4 text-center">
+                            <img src="{{ asset('/images/logo.svg') }}" alt="" style="width: 68%; object-fit: contain">
+                        </div>
                         <form role="form" method="POST" action="{{ route('login') }}">
                             @csrf
                             @if($errors->any())
@@ -63,7 +66,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="row mt-3">
+                <div class="row mt-3" hidden>
                     <div class="col-6">
                         <a href="#" class="text-light">
                             <small>Esqueceu sua senha?</small>
