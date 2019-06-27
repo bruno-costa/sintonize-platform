@@ -100,7 +100,7 @@
 
 <body class="bg-default">
 <!-- Navbar -->
-<nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light">
+<nav id="navbar-main" class="navbar navbar-horizontal navbar-transparent navbar-main navbar-expand-lg navbar-light" hidden>
     <div class="container">
         <a class="navbar-brand" href="#">
             <img src="https://demos.creative-tim.com/argon-dashboard-pro/assets/img/brand/white.png">

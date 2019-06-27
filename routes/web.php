@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Adm\DashUserController;
+use App\Http\Controllers\AdvertiserController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Adm\RadioController;
@@ -24,6 +25,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware(UserRadioMiddleware::class)->group(function () {
         Route::resource('content', UserRadioContentController::class);
+        Route::resource('advertiser', AdvertiserController::class);
     });
 
 });

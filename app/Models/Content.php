@@ -27,7 +27,12 @@ class Content extends Model
 
     public function advertisers()
     {
-        //$this->hasManyThrough(Advertiser::class, ContentAdvertiser::class)->first();
+        return $this->hasMany(Advertiser::class);
+    }
+
+    public function advertiser()
+    {
+        return $this->advertisers()->first();
     }
 
     public function radio()
