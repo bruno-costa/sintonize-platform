@@ -8,6 +8,7 @@ use App\Models\Roles\RoleAdmin;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -56,7 +57,7 @@ class User extends Authenticatable
         if ($avatar) {
             return $avatar->url();
         }
-        return null;
+        return "https://ui-avatars.com/api/?name=" . Str::slug($this->name, '+');
     }
 
     public function adminRole()
