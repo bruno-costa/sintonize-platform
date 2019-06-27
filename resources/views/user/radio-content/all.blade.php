@@ -71,7 +71,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($radio->contents as $content)
+                            @foreach($radio->contents->sortByDesc('created_at') as $content)
                                 <tr>
                                     <th scope="row">
                                         <a class="media align-items-center"

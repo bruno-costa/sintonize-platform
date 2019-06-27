@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertiser;
+use App\Models\Asset;
+use App\Models\Content;
 use App\Models\Radio;
+use App\Repositories\Promotions\PromotionAbstract;
 use App\Repositories\Promotions\PromotionAnswer;
 use App\Repositories\Promotions\PromotionLink;
 use App\Repositories\Promotions\PromotionTest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class UserRadioContentController extends Controller
 {
@@ -51,7 +56,86 @@ class UserRadioContentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $data = $request->validate([
+                'promKind' => 'required|in:' . implode(',', [PromotionAnswer::getType(), PromotionLink::getType(), PromotionTest::getType()]),
+                'text' => 'required|string',
+                'image' => 'required|image|max:3000',
+                'advertiserId' => 'nullable|exists:advertisers,id',
+                'premiumName' => 'required_with:hasPremium|string',
+                'premiumRule' => 'required_with:hasPremium|string',
+                'premiumValidAt' => 'nullable|date|after_or_equal:today',
+                'premiumRewardAmount' => 'nullable|numeric|min:1',
+                'premiumWinMethod' => 'required_with:hasPremium|string|in:lottery,chronologic',
+                'premiumLotteryAt' => 'required_if:premiumWinMethod,lottery|date|after_or_equal:today',
+                'linkLabel' => 'required_if:promKind,' . PromotionLink::getType() . '|string',
+                'linkUrl' => 'required_if:promKind,' . PromotionLink::getType() . '|url',
+                'testAnswers' => 'required_if:promKind,' . PromotionTest::getType() . '|array',
+                'testAnswers.*' => 'string',
+                'testAnswersCorrectly' => 'nullable|array',
+                'testAnswersCorrectly.*' => 'numeric',
+                'answerLabel' => 'required_if:promKind,' . PromotionAnswer::getType() . '|string',
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                '_cod' => 'radio-content/create/validation',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Throwable $e) {
+            return response()->json([
+                '_cod' => 'radio-content/create/*',
+                'errs' => [$e->getMessage()]
+            ], 500);
+        }
+
+        try {
+            $content = new Content();
+            $content->id = Str::uuid()->toString();
+            $content->radio_id = session('radio_id');
+            $content->text = $data['text'];
+
+            $content->promotion($this->handlePromotion($data, $content));
+
+            $content->image_asset_id = Asset::createLocalFromUploadedFile($data['image'])->id;
+            $content->save();
+        } catch (\Throwable $e) {
+            return response()->json([
+                '_cod' => 'radio-content/create/*',
+                'errs' => [$e->getMessage()]
+            ], 500);
+        }
+        dd($content);
+
+        return response()->json([
+            '_cod' => 'ok',
+            'contentId' => $content->id
+        ], 500);
+    }
+
+    public function handlePromotion(array $data, Content $content): PromotionAbstract
+    {
+        $promotionsClasses = [
+            PromotionAnswer::getType() => PromotionAnswer::class,
+            PromotionLink::getType() => PromotionLink::class,
+            PromotionTest::getType() => PromotionTest::class,
+        ];
+
+        /** @var PromotionAnswer|PromotionTest|PromotionLink $promotion */
+        $promotion = new $promotionsClasses[$data['promKind']]($content);
+        if ($promotion->getType() == PromotionLink::getType()) {
+            $promotion->label = $data['linkLabel'];
+            $promotion->url = $data['linkUrl'];
+        }
+        if ($promotion->getType() == PromotionAnswer::getType()) {
+            $promotion->label = $data['answerLabel'];
+        }
+        if ($promotion->getType() == PromotionTest::getType()) {
+            $testAnswersCorrectly = $data['testAnswersCorrectly'] ?? [];
+            foreach ($data['testAnswers'] as $index => $option) {
+                $promotion->addRawOption($option, in_array($index, $testAnswersCorrectly));
+            }
+        }
+        return $promotion;
     }
 
     /**

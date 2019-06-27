@@ -8,7 +8,7 @@ use App\Models\ContentParticipation;
 
 class PromotionAnswer extends PromotionAbstract
 {
-
+    public $label = '';
     static public function getType(): string
     {
         return 'response';
@@ -23,8 +23,21 @@ class PromotionAnswer extends PromotionAbstract
             $answer = $participation->promotion_answer_array['answer'] ?? null;
         }
         return [
-            'answer' => $answer
+            'answer' => $answer,
+            'label' => $this->label
         ];
+    }
+
+    protected function getArraySerialized(): array
+    {
+        return [
+            'label' => $this->label,
+        ];
+    }
+
+    protected function setArraySerialized(array $data)
+    {
+        $this->label = $data['label'] ?? null;
     }
 
     /**

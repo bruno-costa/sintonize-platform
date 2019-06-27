@@ -60,7 +60,7 @@ class AdvertiserController extends Controller
             ], 422);
         } catch (\Throwable $e) {
             return response()->json([
-                '_cod' => 'user-dash/create/*',
+                '_cod' => 'advertiser/create/*',
                 'errs' => [$e->getMessage()]
             ], 500);
         }
