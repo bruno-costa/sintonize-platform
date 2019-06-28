@@ -33,6 +33,8 @@ class RadioContentController extends Controller
         return response()->json([
             '_cod' => 'ok',
             'contents' => $radio->contents()->orderByDesc('created_at')->get()->map(function (Content $content) use ($user) {
+                /** @var ContentParticipation $participation */
+                $participation = $content->participations()->where('app_user_id', $user->id)->first();
                 return [
                     'id' => $content->id,
                     'postedAt' => $content->created_at,
@@ -40,29 +42,37 @@ class RadioContentController extends Controller
                     'imageUrl' => $content->imageUrl(),
                     'advertiser' => $this->getAdvertiser($content),
                     'premium' => optional(optional($content->promotion())->getPremium())->toArray(),
-                    'action' => $this->getContentAction($content, $user),
-                    'winCode' => $this->winCode($content, $user),
+                    'action' => $this->getContentAction($content),
+                    'participation' => $this->getParticipationArray($participation),
+                    'winCode' => $this->winCode($participation),
                 ];
             })
         ]);
     }
 
-    public function getContentAction(Content $content, AppUser $user)
+    public function getContentAction(Content $content)
     {
         $promotion = $content->promotion();
         if ($promotion) {
             $type = [
                 'type' => $promotion->getType(),
             ];
-            return $type + $promotion->dataJsonParticipations($user);
+            return $type + $promotion->dataArrayPublic();
         }
         return null;
     }
 
-    public function winCode(Content $content, AppUser $user)
+    public function getParticipationArray(ContentParticipation $participation = null)
     {
-        /** @var ContentParticipation $participation */
-        $participation = $content->participations()->where("app_user_id", $user->id)->first();
+        if ($participation) {
+            return $participation->promotion_answer_array;
+        } else {
+            return null;
+        }
+    }
+
+    public function winCode(ContentParticipation $participation = null)
+    {
         if ($participation) {
             return $participation->winCode();
         } else {

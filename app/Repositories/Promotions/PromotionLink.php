@@ -15,7 +15,7 @@ class PromotionLink extends PromotionAbstract
         return 'link';
     }
 
-    public function dataJsonParticipations(AppUser $user): array
+    public function dataArrayPublic(): array
     {
         return [
             'label' => $this->label,
@@ -43,6 +43,7 @@ class PromotionLink extends PromotionAbstract
      */
     public function createParticipation(ContentParticipation $participation, array $data)
     {
+        $participation->promotion_answer_array = [];
         return null;
     }
 

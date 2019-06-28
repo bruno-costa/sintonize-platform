@@ -20,6 +20,8 @@ abstract class PromotionAbstract
 
     protected abstract function setArraySerialized(array $data);
 
+    public abstract function dataArrayPublic(): array;
+
     /**
      * @param ContentParticipation $participation
      * @param array $data
@@ -63,11 +65,6 @@ abstract class PromotionAbstract
                 $this->isParticipationCorrect($participation)
             );
         $participation->save();
-    }
-
-    public function dataJsonParticipations(AppUser $user): array
-    {
-        return [];
     }
 
     public function storeData(): array

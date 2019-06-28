@@ -78,16 +78,9 @@ class PromotionTest extends PromotionAbstract
 
     }
 
-    public function dataJsonParticipations(AppUser $user): array
+    public function dataArrayPublic(): array
     {
-        /** @var ContentParticipation $participation */
-        $participation = $this->content->participations()->where('app_user_id', optional($user)->id)->first();
-        $choice = null;
-        if ($participation) {
-            $choice = $participation->promotion_answer_array['choice'] ?? null;
-        }
         return [
-            'choice' => $choice,
             'options' => $this->loadOptionsPercents()
         ];
     }

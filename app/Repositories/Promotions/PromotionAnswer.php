@@ -14,16 +14,9 @@ class PromotionAnswer extends PromotionAbstract
         return 'response';
     }
 
-    public function dataJsonParticipations(AppUser $user): array
+    public function dataArrayPublic(): array
     {
-        /** @var ContentParticipation $participation */
-        $participation = $this->content->participations()->where('app_user_id', optional($user)->id)->first();
-        $answer = null;
-        if ($participation) {
-            $answer = $participation->promotion_answer_array['answer'] ?? null;
-        }
         return [
-            'answer' => $answer,
             'label' => $this->label
         ];
     }
