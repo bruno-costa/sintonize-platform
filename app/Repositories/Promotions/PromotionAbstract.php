@@ -15,14 +15,18 @@ abstract class PromotionAbstract
     protected $premium;
 
     static abstract public function getType(): string;
+
     protected abstract function getArraySerialized(): array;
+
     protected abstract function setArraySerialized(array $data);
 
-    public function createParticipation(ContentParticipation $participation, array $data)
-    {
-        $participation->is_winner = false;
-        $participation->promotion_answer_array = [];
-    }
+    /**
+     * @param ContentParticipation $participation
+     * @param array $data
+     */
+    public abstract function createParticipation(ContentParticipation $participation, array $data);
+
+    public abstract function isParticipationCorrect(ContentParticipation $participation): bool;
 
     final public function __construct(Content $content)
     {
@@ -44,6 +48,20 @@ abstract class PromotionAbstract
                 'content_id' => $this->content->id,
             ]);
         $this->createParticipation($participation, $data);
+        $participation->is_winner = $this->premium // se tem premio
+            && $this->premium->isChronologic() // se é cronologico
+            && (
+                $this->premium->getValidAt() // se tem validade
+                && date('Y-m-d') <= $this->premium->getValidAt() // ainda ta valido
+            )
+            && (
+                $this->premium->getRewardAmount() // se tem limite de premios
+                && $this->content->participations()->where('is_winner', true)->count() > $this->premium->getRewardAmount() // ainda tem premio
+            )
+            && (
+                $this->premium->isRewardOnlyCorrect() &&
+                $this->isParticipationCorrect($participation)
+            );
         $participation->save();
     }
 
@@ -52,25 +70,13 @@ abstract class PromotionAbstract
         return [];
     }
 
-    public function createPremium(array $data)
-    {
-        $this->premium = new PremiumPromotion();
-        $this->premium
-            ->setName($data['premiumName'] ?? $data['name'] ?? null)
-            ->setRule($data['premiumRule'] ?? $data['rule'] ?? null)
-            ->setValidAt($data['premiumValidAt'] ?? $data['validAt'] ?? null)
-            ->setRewardAmount($data['premiumRewardAmount'] ?? $data['rewardAmount'] ?? null)
-            ->setWinMethod($data['premiumWinMethod'] ?? $data['winMethod'] ?? null)
-            ->setLotteryAt($data['premiumLotteryAt'] ?? $data['lotteryAt'] ?? null);
-    }
-
     public function storeData(): array
     {
         return [
             '_class' => static::class,
             '_data' => $this->getArraySerialized(),
             '_common' => [
-                'premium' => optional($this->premium)->toArray(),
+                'premium' => optional($this->premium)->toArray() ?? [],
             ],
         ];
     }
@@ -81,8 +87,24 @@ abstract class PromotionAbstract
         $obj = new $data['_class']($content);
         $obj->setArraySerialized($data['_data']);
         $common = $data['_common'] ?? [];
-        if (isset($common['premium'])) {
-            $obj->createPremium($common['premium']);
+        if (isset($common['premium']) && is_array($common['premium'])
+            && isset($data['name'])
+            && isset($data['rule'])
+            && isset($data['validAt'])
+            && isset($data['rewardAmount'])
+            && isset($data['winMethod'])
+            && isset($data['lotteryAt'])
+            && isset($data['rewardOnlyCorrect'])
+        ) {
+            $obj->premium = new PremiumPromotion();
+            $obj->premium
+                ->setName($data['name'])
+                ->setRule($data['rule'])
+                ->setValidAt($data['validAt'])
+                ->setRewardAmount($data['rewardAmount'])
+                ->setWinMethod($data['winMethod'])
+                ->setLotteryAt($data['lotteryAt'])
+                ->setRewardOnlyCorrect($data['rewardOnlyCorrect']);
         }
         return $obj;
     }

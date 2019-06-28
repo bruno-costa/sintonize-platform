@@ -24,6 +24,9 @@ class PremiumPromotion
     /** @var string|null date in format Y-m-d */
     private $lotteryAt;
 
+    /** @var bool */
+    private $rewardOnlyCorrect = false;
+
     public function toArray(): array
     {
         return [
@@ -33,7 +36,18 @@ class PremiumPromotion
             'rewardAmount' => $this->rewardAmount,
             'winMethod' => $this->winMethod,
             'lotteryAt' => $this->lotteryAt,
+            'rewardOnlyCorrect' => $this->rewardOnlyCorrect,
         ];
+    }
+
+    public function isLottery(): bool
+    {
+        return $this->winMethod == 'lottery';
+    }
+
+    public function isChronologic(): bool
+    {
+        return $this->winMethod == 'chronologic';
     }
 
     /**
@@ -152,5 +166,21 @@ class PremiumPromotion
         }
         $this->lotteryAt = $lotteryAt;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRewardOnlyCorrect(): bool
+    {
+        return $this->rewardOnlyCorrect;
+    }
+
+    /**
+     * @param bool $rewardOnlyCorrect
+     */
+    public function setRewardOnlyCorrect(bool $rewardOnlyCorrect): void
+    {
+        $this->rewardOnlyCorrect = $rewardOnlyCorrect;
     }
 }

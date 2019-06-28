@@ -41,9 +41,9 @@ class PromotionAnswer extends PromotionAbstract
     }
 
     /**
+     * @throws HttpInvalidArgument
      * @param ContentParticipation $participation
      * @param array $data
-     * @throws HttpInvalidArgument
      */
     public function createParticipation(ContentParticipation $participation, array $data)
     {
@@ -51,12 +51,16 @@ class PromotionAnswer extends PromotionAbstract
         if (!isset($data['response'])) {
             throw new HttpInvalidArgument("response_missing");
         }
+
         $response = $data['response'];
 
-        $participation->is_winner = false;
         $participation->promotion_answer_array = [
             'answer' => $response
         ];
-        $participation->save();
+    }
+
+    public function isParticipationCorrect(ContentParticipation $participation): bool
+    {
+        return true;
     }
 }

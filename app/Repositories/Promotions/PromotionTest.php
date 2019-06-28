@@ -55,9 +55,9 @@ class PromotionTest extends PromotionAbstract
     }
 
     /**
+     * @throws HttpInvalidArgument
      * @param ContentParticipation $participation
      * @param array $data
-     * @throws HttpInvalidArgument
      */
     public function createParticipation(ContentParticipation $participation, array $data)
     {
@@ -71,10 +71,11 @@ class PromotionTest extends PromotionAbstract
             throw new HttpInvalidArgument("choice_invalid");
         }
 
-        $participation->is_winner = false;
         $participation->promotion_answer_array = [
             'choice' => $choice
         ];
+
+
     }
 
     public function dataJsonParticipations(AppUser $user): array
@@ -100,5 +101,19 @@ class PromotionTest extends PromotionAbstract
                 'isCorrect' => $option->isCorrect,
             ];
         });
+    }
+
+    /**
+     * @param ContentParticipation $participation
+     * @return bool
+     * @throws HttpInvalidArgument
+     */
+    public function isParticipationCorrect(ContentParticipation $participation): bool
+    {
+        $choice = $participation->promotion_answer_array['choice'] ?? null;
+        if ($choice === null) {
+            throw new HttpInvalidArgument("choice_missing");
+        }
+        return $this->options[$choice]->isCorrect;
     }
 }

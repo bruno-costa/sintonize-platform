@@ -3,6 +3,7 @@
 namespace App\Repositories\Promotions;
 
 use App\Models\AppUser;
+use App\Models\ContentParticipation;
 
 class PromotionLink extends PromotionAbstract
 {
@@ -34,5 +35,19 @@ class PromotionLink extends PromotionAbstract
     {
         $this->label = $data['label'];
         $this->url = $data['url'];
+    }
+
+    /**
+     * @param ContentParticipation $participation
+     * @param array $data
+     */
+    public function createParticipation(ContentParticipation $participation, array $data)
+    {
+        return null;
+    }
+
+    public function isParticipationCorrect(ContentParticipation $participation): bool
+    {
+        return true;
     }
 }

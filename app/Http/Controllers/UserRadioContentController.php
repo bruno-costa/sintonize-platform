@@ -6,6 +6,7 @@ use App\Models\Advertiser;
 use App\Models\Asset;
 use App\Models\Content;
 use App\Models\Radio;
+use App\Repositories\PremiumPromotion;
 use App\Repositories\Promotions\PromotionAbstract;
 use App\Repositories\Promotions\PromotionAnswer;
 use App\Repositories\Promotions\PromotionLink;
@@ -68,6 +69,7 @@ class UserRadioContentController extends Controller
                 'premiumRewardAmount' => 'nullable|numeric|min:1',
                 'premiumWinMethod' => 'required_with:hasPremium|string|in:lottery,chronologic',
                 'premiumLotteryAt' => 'required_if:premiumWinMethod,lottery|date|after_or_equal:today',
+                'premiumRewardOnlyCorrect' => 'nullable|bool',
                 'linkLabel' => 'required_if:promKind,' . PromotionLink::getType() . '|string',
                 'linkUrl' => 'required_if:promKind,' . PromotionLink::getType() . '|url',
                 'testAnswers' => 'required_if:promKind,' . PromotionTest::getType() . '|array',
@@ -146,7 +148,17 @@ class UserRadioContentController extends Controller
             }
         }
 
-        $promotion->createPremium($data);
+        if (isset($data['hasPremium'])) {
+            $premium = new PremiumPromotion();
+            $premium
+                ->setName($data['premiumName'])
+                ->setRule($data['premiumRule'])
+                ->setValidAt($data['premiumValidAt'] ?? null)
+                ->setRewardAmount($data['premiumRewardAmount'] ?? null)
+                ->setWinMethod($data['premiumWinMethod'])
+                ->setLotteryAt($data['premiumLotteryAt'] ?? null)
+                ->setRewardOnlyCorrect($data['premiumRewardOnlyCorrect'] ?? false);
+        }
 
         return $promotion;
     }
