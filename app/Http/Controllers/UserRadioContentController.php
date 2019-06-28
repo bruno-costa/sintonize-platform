@@ -65,7 +65,7 @@ class UserRadioContentController extends Controller
                 'advertiserId' => 'nullable|exists:advertisers,id',
                 'premiumName' => 'required_with:hasPremium|string',
                 'premiumRule' => 'required_with:hasPremium|string',
-                'premiumValidAt' => 'nullable|date|after_or_equal:today',
+                'premiumValidAt' => 'required_with:hasPremium|date|after_or_equal:today',
                 'premiumRewardAmount' => 'nullable|numeric|min:1',
                 'premiumWinMethod' => 'required_with:hasPremium|string|in:lottery,chronologic',
                 'premiumLotteryAt' => 'required_if:premiumWinMethod,lottery|date|after_or_equal:today',
@@ -153,7 +153,7 @@ class UserRadioContentController extends Controller
             $premium
                 ->setName($data['premiumName'])
                 ->setRule($data['premiumRule'])
-                ->setValidAt($data['premiumValidAt'] ?? null)
+                ->setValidAt($data['premiumValidAt'])
                 ->setRewardAmount($data['premiumRewardAmount'] ?? null)
                 ->setWinMethod($data['premiumWinMethod'])
                 ->setLotteryAt($data['premiumLotteryAt'] ?? null)

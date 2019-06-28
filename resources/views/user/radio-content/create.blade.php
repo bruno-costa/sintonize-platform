@@ -455,9 +455,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="prem-label-valid-at" class="col-form-label form-control-label">
-                                    Data final da premiação
+                                    Validade
                                 </label>
-                                <input class="form-control col col-md-3" type="date" id="prem-label-valid-at"
+                                <input class="form-control col col-md-3" type="date" id="prem-label-valid-at" required
                                        name="premiumValidAt">
                             </div>
                             <div class="form-group">

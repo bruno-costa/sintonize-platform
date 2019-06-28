@@ -12,7 +12,7 @@ class PremiumPromotion
     /** @var string */
     private $rule;
 
-    /** @var string|null date in format Y-m-d */
+    /** @var string date in format Y-m-d */
     private $validAt;
 
     /** @var int|null greter then 1 */
@@ -87,20 +87,20 @@ class PremiumPromotion
     }
 
     /**
-     * @return null|string
+     * @return string
      */
-    public function getValidAt(): ?string
+    public function getValidAt(): string
     {
         return $this->validAt;
     }
 
     /**
-     * @param null|string $validAt
+     * @param string $validAt
      * @return PremiumPromotion
      */
-    public function setValidAt(?string $validAt): PremiumPromotion
+    public function setValidAt(string $validAt): PremiumPromotion
     {
-        if ($validAt && Carbon::createFromFormat('Y-m-d', $validAt)->format('Y-m-d') != $validAt) {
+        if (Carbon::createFromFormat('Y-m-d', $validAt)->format('Y-m-d') != $validAt) {
             throw new \UnexpectedValueException("invalid date format, expected \"Y-m-d\"");
         }
         $this->validAt = $validAt;

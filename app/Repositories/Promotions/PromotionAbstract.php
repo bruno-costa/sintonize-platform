@@ -52,10 +52,7 @@ abstract class PromotionAbstract
         $this->createParticipation($participation, $data);
         $participation->is_winner = $this->premium // se tem premio
             && $this->premium->isChronologic() // se é cronologico
-            && (
-                !$this->premium->getValidAt() // se não tem validade
-                || date('Y-m-d') <= $this->premium->getValidAt() // ou ainda ta valido
-            )
+            && date('Y-m-d') <= $this->premium->getValidAt() // ainda ta valido
             && (
                 !$this->premium->getRewardAmount() // se não tem limite de premios
                 || $this->content->participations()->where('is_winner', true)->count() > $this->premium->getRewardAmount() // ou ainda tem premio
@@ -87,6 +84,7 @@ abstract class PromotionAbstract
         if (isset($common['premium']) && is_array($common['premium'])
             && isset($common['premium']['name'])
             && isset($common['premium']['rule'])
+            && isset($common['premium']['validAt'])
             && isset($common['premium']['winMethod'])
             && isset($common['premium']['rewardOnlyCorrect'])
         ) {
@@ -94,7 +92,7 @@ abstract class PromotionAbstract
             $obj->premium
                 ->setName($common['premium']['name'])
                 ->setRule($common['premium']['rule'])
-                ->setValidAt($common['premium']['validAt'] ?? null)
+                ->setValidAt($common['premium']['validAt'])
                 ->setRewardAmount($common['premium']['rewardAmount'] ?? null)
                 ->setWinMethod($common['premium']['winMethod'])
                 ->setLotteryAt($common['premium']['lotteryAt'] ?? null)
