@@ -178,9 +178,11 @@ class PremiumPromotion
 
     /**
      * @param bool $rewardOnlyCorrect
+     * @return PremiumPromotion
      */
-    public function setRewardOnlyCorrect(bool $rewardOnlyCorrect): void
+    public function setRewardOnlyCorrect(bool $rewardOnlyCorrect): PremiumPromotion
     {
         $this->rewardOnlyCorrect = $rewardOnlyCorrect;
+        return $this;
     }
 }

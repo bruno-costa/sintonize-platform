@@ -53,16 +53,16 @@ abstract class PromotionAbstract
         $participation->is_winner = $this->premium // se tem premio
             && $this->premium->isChronologic() // se é cronologico
             && (
-                $this->premium->getValidAt() // se tem validade
-                && date('Y-m-d') <= $this->premium->getValidAt() // ainda ta valido
+                !$this->premium->getValidAt() // se não tem validade
+                || date('Y-m-d') <= $this->premium->getValidAt() // ou ainda ta valido
             )
             && (
-                $this->premium->getRewardAmount() // se tem limite de premios
-                && $this->content->participations()->where('is_winner', true)->count() > $this->premium->getRewardAmount() // ainda tem premio
+                !$this->premium->getRewardAmount() // se não tem limite de premios
+                || $this->content->participations()->where('is_winner', true)->count() > $this->premium->getRewardAmount() // ou ainda tem premio
             )
             && (
-                $this->premium->isRewardOnlyCorrect() &&
-                $this->isParticipationCorrect($participation)
+                !$this->premium->isRewardOnlyCorrect() // se não apenas respostas corretas
+                || $this->isParticipationCorrect($participation) // ou resposta esta correta
             );
         $participation->save();
     }
