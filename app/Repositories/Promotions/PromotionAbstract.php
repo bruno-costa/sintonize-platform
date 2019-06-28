@@ -75,7 +75,7 @@ abstract class PromotionAbstract
         return [
             '_class' => static::class,
             '_data' => $this->getArraySerialized(),
-            '_common' => [
+            '_static' => [
                 'premium' => optional($this->premium)->toArray() ?? [],
             ],
         ];
@@ -86,25 +86,22 @@ abstract class PromotionAbstract
         /** @var PromotionAbstract $obj */
         $obj = new $data['_class']($content);
         $obj->setArraySerialized($data['_data']);
-        $common = $data['_common'] ?? [];
+        $common = $data['_static'] ?? [];
         if (isset($common['premium']) && is_array($common['premium'])
-            && isset($data['name'])
-            && isset($data['rule'])
-            && isset($data['validAt'])
-            && isset($data['rewardAmount'])
-            && isset($data['winMethod'])
-            && isset($data['lotteryAt'])
-            && isset($data['rewardOnlyCorrect'])
+            && isset($common['premium']['name'])
+            && isset($common['premium']['rule'])
+            && isset($common['premium']['winMethod'])
+            && isset($common['premium']['rewardOnlyCorrect'])
         ) {
             $obj->premium = new PremiumPromotion();
             $obj->premium
-                ->setName($data['name'])
-                ->setRule($data['rule'])
-                ->setValidAt($data['validAt'])
-                ->setRewardAmount($data['rewardAmount'])
-                ->setWinMethod($data['winMethod'])
-                ->setLotteryAt($data['lotteryAt'])
-                ->setRewardOnlyCorrect($data['rewardOnlyCorrect']);
+                ->setName($common['premium']['name'])
+                ->setRule($common['premium']['rule'])
+                ->setValidAt($common['premium']['validAt'] ?? null)
+                ->setRewardAmount($common['premium']['rewardAmount'] ?? null)
+                ->setWinMethod($common['premium']['winMethod'])
+                ->setLotteryAt($common['premium']['lotteryAt'] ?? null)
+                ->setRewardOnlyCorrect($common['premium']['rewardOnlyCorrect']);
         }
         return $obj;
     }

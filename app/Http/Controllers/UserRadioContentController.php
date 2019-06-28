@@ -148,7 +148,7 @@ class UserRadioContentController extends Controller
             }
         }
 
-        if (isset($data['hasPremium'])) {
+        if (isset($data['premiumName'])) {
             $premium = new PremiumPromotion();
             $premium
                 ->setName($data['premiumName'])
@@ -158,6 +158,7 @@ class UserRadioContentController extends Controller
                 ->setWinMethod($data['premiumWinMethod'])
                 ->setLotteryAt($data['premiumLotteryAt'] ?? null)
                 ->setRewardOnlyCorrect($data['premiumRewardOnlyCorrect'] ?? false);
+            $promotion->setPremium($premium);
         }
 
         return $promotion;
