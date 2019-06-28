@@ -458,7 +458,7 @@
                                     Validade
                                 </label>
                                 <input class="form-control col col-md-3" type="date" id="prem-label-valid-at" required
-                                       name="premiumValidAt">
+                                       name="premiumValidAt" min="{{ date('Y-m-d') }}">
                             </div>
                             <div class="form-group">
                                 <label for="prem-num-reward" class="col-form-label form-control-label">
@@ -508,7 +508,7 @@
                                     </div>
                                     <div class="ml-3" v-if="dataSorteio.type == 'lottery' ">
                                         <input class="form-control" type="date" id="" name="premiumLotteryAt" required
-                                               v-model="dataSorteio.value"
+                                               min="{{ date('Y-m-d') }}" v-model="dataSorteio.value"
                                         >
                                     </div>
                                 </div>
