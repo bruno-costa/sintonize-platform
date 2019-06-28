@@ -75,9 +75,4 @@ class Content extends Model
         }
         return PromotionAbstract::restoreData($data, $this);
     }
-
-    public function winCode()
-    {
-        return null;
-    }
 }

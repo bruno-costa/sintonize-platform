@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\AppUser;
 use App\Models\Content;
+use App\Models\ContentParticipation;
 use App\Models\Radio;
 use Illuminate\Http\Request;
 
@@ -40,7 +41,7 @@ class RadioContentController extends Controller
                     'advertiser' => $this->getAdvertiser($content),
                     'premium' => optional(optional($content->promotion())->getPremium())->toArray(),
                     'action' => $this->getContentAction($content, $user),
-                    'winCode' => $content->winCode(),
+                    'winCode' => $this->winCode($content, $user),
                 ];
             })
         ]);
@@ -56,6 +57,17 @@ class RadioContentController extends Controller
             return $type + $promotion->dataJsonParticipations($user);
         }
         return null;
+    }
+
+    public function winCode(Content $content, AppUser $user)
+    {
+        /** @var ContentParticipation $participation */
+        $participation = $content->participations()->where("app_user_id", $user->id)->first();
+        if ($participation) {
+            return $participation->winCode();
+        } else {
+            return null;
+        }
     }
 
     public function getAdvertiser(Content $content)
