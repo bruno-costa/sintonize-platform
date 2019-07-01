@@ -44,7 +44,7 @@ class AssetController extends Controller
     private function generateResponse(Asset $asset, $exp)
     {
         if ($asset->disk == 'local') {
-            return response()->redirectTo(url($asset->path), 302, [
+            return response()->redirectTo(url('storage/' . $asset->path), 302, [
                 'expires' => date('D, d M Y H:i:s \G\M\T', $exp),
                 'last-modified'=> $asset->updated_at->toRfc7231String(),
             ]);
