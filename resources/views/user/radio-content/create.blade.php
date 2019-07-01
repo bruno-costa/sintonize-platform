@@ -239,6 +239,8 @@
                                     @case(\App\Repositories\Promotions\PromotionAnswer::getType()) Pergunta
                                     @break
                                     @case(\App\Repositories\Promotions\PromotionTest::getType()) Enquete
+                                    @break
+                                    @case(\App\Repositories\Promotions\PromotionVoucher::getType()) Cupom
                                 @endswitch
                             </h3>
                             <div class="ml-auto">
@@ -305,6 +307,21 @@
                             </div>
                         </div>
                         @switch($typeContent)
+                            @case(\App\Repositories\Promotions\PromotionVoucher::getType())
+                            <hr class="my-6">
+                            <h2>Detalhes do cupom</h2>
+                            <div class="form-group">
+                                <label for="answer-label-input" class="col-form-label form-control-label">
+                                    Texto do botão
+                                </label>
+                                <div>
+                                    <select class="form-control" id="answer-label-input" name="voucherLabel" required>
+                                        <option>Obter agora</option>
+                                        <option>Garantir o meu</option>
+                                    </select>
+                                </div>
+                            </div>
+                            @break
                             @case(\App\Repositories\Promotions\PromotionLink::getType())
                             <div class="form-group">
                                 <hr class="my-6">
@@ -356,73 +373,71 @@
                             </div>
                             @break
                             @case(\App\Repositories\Promotions\PromotionTest::getType())
+                            <hr class="my-6">
+                            <h2>Detalhes da Enquete</h2>
+                            <label for="answer-label-input" class="col-form-label form-control-label">
+                                Opções do Teste
+                            </label>
                             <div class="">
-                                <hr class="my-6">
-                                <h2>Detalhes da Enquete</h2>
-                                <label for="answer-label-input" class="col-form-label form-control-label">
-                                    Opções do Teste
-                                </label>
-                                <div class="">
-                                    <div class="d-flex mb-2 align-items-center">
-                                        <div class="mr-2">
-                                            <label class="test-switch-option">
-                                                <span class="text-nowrap mr-2">Resposta correta</span>
-                                                <span class="custom-toggle">
-                                                    <input type="checkbox" v-model="testAnswers"
-                                                           name="testAnswersCorrectly[]" value="0">
-                                                    <span class="custom-toggle-slider rounded-circle"
-                                                          data-label-off="Não" data-label-on="Sim"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <input class="form-control" type="text" placeholder="Opção 1"
-                                               name="testAnswers[]" required>
+                                <div class="d-flex mb-2 align-items-center">
+                                    <div class="mr-2">
+                                        <label class="test-switch-option">
+                                            <span class="text-nowrap mr-2">Resposta correta</span>
+                                            <span class="custom-toggle">
+                                                <input type="checkbox" v-model="testAnswers"
+                                                       name="testAnswersCorrectly[]" value="0">
+                                                <span class="custom-toggle-slider rounded-circle"
+                                                      data-label-off="Não" data-label-on="Sim"></span>
+                                            </span>
+                                        </label>
                                     </div>
-                                    <div class="d-flex mb-2 align-items-center">
-                                        <div class="mr-2">
-                                            <label class="test-switch-option">
-                                                <span class="text-nowrap mr-2">Resposta correta</span>
-                                                <span class="custom-toggle">
-                                                    <input type="checkbox" v-model="testAnswers"
-                                                           name="testAnswersCorrectly[]" value="1">
-                                                    <span class="custom-toggle-slider rounded-circle"
-                                                          data-label-off="Não" data-label-on="Sim"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <input class="form-control" type="text" placeholder="Opção 2"
-                                               name="testAnswers[]" required>
+                                    <input class="form-control" type="text" placeholder="Opção 1"
+                                           name="testAnswers[]" required>
+                                </div>
+                                <div class="d-flex mb-2 align-items-center">
+                                    <div class="mr-2">
+                                        <label class="test-switch-option">
+                                            <span class="text-nowrap mr-2">Resposta correta</span>
+                                            <span class="custom-toggle">
+                                                <input type="checkbox" v-model="testAnswers"
+                                                       name="testAnswersCorrectly[]" value="1">
+                                                <span class="custom-toggle-slider rounded-circle"
+                                                      data-label-off="Não" data-label-on="Sim"></span>
+                                            </span>
+                                        </label>
                                     </div>
-                                    <div class="d-flex mb-2 align-items-center">
-                                        <div class="mr-2">
-                                            <label class="test-switch-option">
-                                                <span class="text-nowrap mr-2">Resposta correta</span>
-                                                <span class="custom-toggle">
-                                                    <input type="checkbox" v-model="testAnswers"
-                                                           name="testAnswersCorrectly[]" value="2">
-                                                    <span class="custom-toggle-slider rounded-circle"
-                                                          data-label-off="Não" data-label-on="Sim"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <input class="form-control" type="text" placeholder="Opção 3"
-                                               name="testAnswers[]" required>
+                                    <input class="form-control" type="text" placeholder="Opção 2"
+                                           name="testAnswers[]" required>
+                                </div>
+                                <div class="d-flex mb-2 align-items-center">
+                                    <div class="mr-2">
+                                        <label class="test-switch-option">
+                                            <span class="text-nowrap mr-2">Resposta correta</span>
+                                            <span class="custom-toggle">
+                                                <input type="checkbox" v-model="testAnswers"
+                                                       name="testAnswersCorrectly[]" value="2">
+                                                <span class="custom-toggle-slider rounded-circle"
+                                                      data-label-off="Não" data-label-on="Sim"></span>
+                                            </span>
+                                        </label>
                                     </div>
-                                    <div class="d-flex mb-2 align-items-center">
-                                        <div class="mr-2">
-                                            <label class="test-switch-option">
-                                                <span class="text-nowrap mr-2">Resposta correta</span>
-                                                <span class="custom-toggle">
-                                                    <input type="checkbox" v-model="testAnswers"
-                                                           name="testAnswersCorrectly[]" value="3">
-                                                    <span class="custom-toggle-slider rounded-circle"
-                                                          data-label-off="Não" data-label-on="Sim"></span>
-                                                </span>
-                                            </label>
-                                        </div>
-                                        <input class="form-control" type="text" placeholder="Opção 4"
-                                               name="testAnswers[]" required>
+                                    <input class="form-control" type="text" placeholder="Opção 3"
+                                           name="testAnswers[]" required>
+                                </div>
+                                <div class="d-flex mb-2 align-items-center">
+                                    <div class="mr-2">
+                                        <label class="test-switch-option">
+                                            <span class="text-nowrap mr-2">Resposta correta</span>
+                                            <span class="custom-toggle">
+                                                <input type="checkbox" v-model="testAnswers"
+                                                       name="testAnswersCorrectly[]" value="3">
+                                                <span class="custom-toggle-slider rounded-circle"
+                                                      data-label-off="Não" data-label-on="Sim"></span>
+                                            </span>
+                                        </label>
                                     </div>
+                                    <input class="form-control" type="text" placeholder="Opção 4"
+                                           name="testAnswers[]" required>
                                 </div>
                             </div>
                             @break
@@ -430,12 +445,16 @@
                         <hr class="my-6">
                         <label class="col-form-label form-control-label d-inline-flex">
                             <span class="h2">Premiação</span>
-                            <span class="custom-toggle ml-3">
-                                                        <input type="checkbox" v-model="contemPremiacao"
-                                                               name="hasPremium">
-                                                        <span class="custom-toggle-slider rounded-circle"
-                                                              data-label-off="Não" data-label-on="Sim"></span>
-                                                    </span>
+                            @if(\App\Repositories\Promotions\PromotionVoucher::getType() == $typeContent)
+                                <input type="hidden" v-model="contemPremiacao" :value="'on'" name="hasPremium">
+                            @else
+                                <span class="custom-toggle ml-3">
+                                                            <input type="checkbox" v-model="contemPremiacao"
+                                                                   name="hasPremium">
+                                                            <span class="custom-toggle-slider rounded-circle"
+                                                                  data-label-off="Não" data-label-on="Sim"></span>
+                                                        </span>
+                            @endif
                         </label>
                         <div v-if="contemPremiacao">
                             <div class="form-group">

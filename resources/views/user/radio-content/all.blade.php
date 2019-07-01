@@ -5,12 +5,14 @@
 @php($bgDeg = [
 \App\Repositories\Promotions\PromotionTest::getType() => 'bg-gradient-orange text-white',
 \App\Repositories\Promotions\PromotionAnswer::getType() => 'bg-gradient-red text-white',
-\App\Repositories\Promotions\PromotionLink::getType() => 'bg-gradient-green text-white'
+\App\Repositories\Promotions\PromotionLink::getType() => 'bg-gradient-green text-white',
+\App\Repositories\Promotions\PromotionVoucher::getType() => 'bg-gradient-purple text-white'
 ])
 @php($degName = [
 \App\Repositories\Promotions\PromotionTest::getType() => 'Enquete',
 \App\Repositories\Promotions\PromotionAnswer::getType() => 'Resposta',
-\App\Repositories\Promotions\PromotionLink::getType() => 'Link'
+\App\Repositories\Promotions\PromotionLink::getType() => 'Link',
+\App\Repositories\Promotions\PromotionVoucher::getType() => 'Cupom'
 ])
 
 @push('styles')
@@ -80,6 +82,10 @@
                 <div class="col">
                     <a href="{{ route('content.create', [\App\Repositories\Promotions\PromotionLink::getType()]) }}"
                        class="btn btn-block btn-default border-0 bg-gradient-green shadom ">Divulgar Link</a>
+                </div>
+                <div class="col">
+                    <a href="{{ route('content.create', [\App\Repositories\Promotions\PromotionVoucher::getType()]) }}"
+                       class="btn btn-block btn-default border-0 bg-gradient-purple shadom ">Cupom</a>
                 </div>
             </div>
         </div>

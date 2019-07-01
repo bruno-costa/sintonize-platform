@@ -11,6 +11,7 @@ use App\Repositories\Promotions\PromotionAbstract;
 use App\Repositories\Promotions\PromotionAnswer;
 use App\Repositories\Promotions\PromotionLink;
 use App\Repositories\Promotions\PromotionTest;
+use App\Repositories\Promotions\PromotionVoucher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -41,6 +42,8 @@ class UserRadioContentController extends Controller
             $typeContent = PromotionTest::getType();
         } else if (request()->has(PromotionAnswer::getType())) {
             $typeContent = PromotionAnswer::getType();
+        } else if (request()->has(PromotionVoucher::getType())) {
+            $typeContent = PromotionVoucher::getType();
         }
         return view('user.radio-content.create', [
             'radio' => Radio::findOrFail(session('radio_id')),
@@ -59,7 +62,7 @@ class UserRadioContentController extends Controller
     {
         try {
             $data = $request->validate([
-                'promKind' => 'required|in:' . implode(',', [PromotionAnswer::getType(), PromotionLink::getType(), PromotionTest::getType()]),
+                'promKind' => 'required|in:' . implode(',', [PromotionAnswer::getType(), PromotionLink::getType(), PromotionTest::getType(), PromotionVoucher::getType()]),
                 'text' => 'required|string',
                 'image' => 'required|image|max:3000',
                 'advertiserId' => 'nullable|exists:advertisers,id',
@@ -77,6 +80,7 @@ class UserRadioContentController extends Controller
                 'testAnswersCorrectly' => 'nullable|array',
                 'testAnswersCorrectly.*' => 'numeric',
                 'answerLabel' => 'required_if:promKind,' . PromotionAnswer::getType() . '|string',
+                'voucherLabel' => 'required_if:promKind,' . PromotionVoucher::getType() . '|string',
             ]);
         } catch (ValidationException $e) {
             return response()->json([
@@ -103,7 +107,7 @@ class UserRadioContentController extends Controller
         } catch (\Throwable $e) {
             return response()->json([
                 '_cod' => 'radio-content/create/*',
-                'errs' => [$e->getMessage()]
+                'errs' => [$e->getMessage(), $e->getTrace()]
             ], 500);
         }
 
@@ -130,6 +134,7 @@ class UserRadioContentController extends Controller
             PromotionAnswer::getType() => PromotionAnswer::class,
             PromotionLink::getType() => PromotionLink::class,
             PromotionTest::getType() => PromotionTest::class,
+            PromotionVoucher::getType() => PromotionVoucher::class,
         ];
 
         /** @var PromotionAnswer|PromotionTest|PromotionLink $promotion */
@@ -140,6 +145,9 @@ class UserRadioContentController extends Controller
         }
         if ($promotion->getType() == PromotionAnswer::getType()) {
             $promotion->label = $data['answerLabel'];
+        }
+        if ($promotion->getType() == PromotionVoucher::getType()) {
+            $promotion->label = $data['voucherLabel'];
         }
         if ($promotion->getType() == PromotionTest::getType()) {
             $testAnswersCorrectly = $data['testAnswersCorrectly'] ?? [];
