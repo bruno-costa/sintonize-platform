@@ -16,4 +16,9 @@ class AppUser extends Model
     ];
 
     public $incrementing = false;
+
+    public function participations()
+    {
+        return $this->hasMany(ContentParticipation::class);
+    }
 }

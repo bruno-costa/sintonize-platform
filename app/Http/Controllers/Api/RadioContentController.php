@@ -35,19 +35,24 @@ class RadioContentController extends Controller
             'contents' => $radio->contents()->orderByDesc('created_at')->get()->map(function (Content $content) use ($user) {
                 /** @var ContentParticipation $participation */
                 $participation = $content->participations()->where('app_user_id', $user->id)->first();
-                return [
-                    'id' => $content->id,
-                    'postedAt' => $content->created_at,
-                    'text' => $content->text,
-                    'imageUrl' => $content->imageUrl(),
-                    'advertiser' => $this->getAdvertiser($content),
-                    'premium' => optional(optional($content->promotion())->getPremium())->toArray(),
-                    'action' => $this->getContentAction($content),
-                    'participation' => $this->getParticipationArray($participation),
-                    'winCode' => $this->winCode($participation),
-                ];
+                return $this->generateResource($content, $participation);
             })
         ]);
+    }
+
+    public function generateResource(Content $content, ContentParticipation $participation)
+    {
+        return [
+            'id' => $content->id,
+            'postedAt' => $content->created_at,
+            'text' => $content->text,
+            'imageUrl' => $content->imageUrl(),
+            'advertiser' => $this->getAdvertiser($content),
+            'premium' => optional(optional($content->promotion())->getPremium())->toArray(),
+            'action' => $this->getContentAction($content),
+            'participation' => $this->getParticipationArray($participation),
+            'winCode' => $this->winCode($participation),
+        ];
     }
 
     public function getContentAction(Content $content)
