@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use App\Http\Controllers\AssetController;
+use App\Services\ImageProcessorService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
+use Symfony\Component\Mime\MimeTypes;
 
 class Asset extends Model
 {
@@ -23,35 +26,38 @@ class Asset extends Model
     {
         $conversor = new \App\Utils\FileManipulator();
         $file = $conversor->fromURL($url)->toUploadedFile();
-        $asset = self::newFromUploadedFile($file);
-        $saved = $file->store('public/uploads', 'local');
-        $asset->fill([
-            'path' => 'storage/' . substr($saved, 7),
-            'disk' => 'local',
-        ]);
+        $asset = self::newFromLocalFile($file->getRealPath());
+        $asset->storageDiskLocal();
         return $asset;
     }
 
-    public static function newFromUploadedFile(UploadedFile $uploadedFile)
+    /**
+     * @param string $path
+     * @return Asset
+     * @throws \InvalidArgumentException
+     */
+    public static function newFromLocalFile(string $path): Asset
     {
-        $asset = new self;
-        $asset->fill([
-            'md5sum' => md5_file($uploadedFile->getRealPath()),
-            'shasum' => sha1_file($uploadedFile->getRealPath()),
-            'size' => $uploadedFile->getSize(),
-            'mime_type' => $uploadedFile->getMimeType(),
-        ]);
-        return $asset;
+        if (is_file($path)) {
+            $asset = new self;
+            $asset->fill([
+                'md5sum' => md5_file($path),
+                'shasum' => sha1_file($path),
+                'size' => filesize($path),
+                'mime_type' => mime_content_type($path),
+                'path' => $path,
+                'disk' => 'realpath'
+            ]);
+            return $asset;
+        }
+        throw new \InvalidArgumentException("path \"{$path}\" is not a file");
     }
 
 
     public static function createLocalFromUploadedFile(UploadedFile $uploadedFile)
     {
-        $asset = self::newFromUploadedFile($uploadedFile);
-        $asset->fill([
-            'path' => 'storage/' . substr($uploadedFile->store('public/uploads', 'local'), 7),
-            'disk' => 'local',
-        ]);
+        $asset = self::newFromLocalFile($uploadedFile->getRealPath());
+        $asset->storageDiskLocal();
         $asset->save();
         return $asset;
     }
@@ -69,5 +75,59 @@ class Asset extends Model
     public function url()
     {
         return AssetController::url($this);
+    }
+
+    /**
+     * @throws \UnexpectedValueException
+     * @return string
+     */
+    public function getLocalPath(): string
+    {
+        if ($this->disk == 'local') {
+            return storage_path('app/public/' . $this->path);
+        }
+        if ($this->disk == 'realpath') {
+            return $this->path;
+        }
+
+        throw new \UnexpectedValueException("disk \"{$this->disk}\" unexpected");
+    }
+
+    public function storageDiskLocal(): bool
+    {
+        $localPath = $this->getLocalPath();
+        $extension = pathinfo($localPath)['extension'] ?? null;
+        if ($extension === null) {
+            $extension = MimeTypes::getDefault()->getExtensions($this->mime_type)[0] ?? null;
+        }
+        if ($extension) {
+            $extension = ".$extension";
+        }
+        $name = Str::random(40) . $extension;
+        $newPath = "uploads/$name";
+        if (copy($localPath, storage_path("app/public/$newPath"))) {
+            $this->path = $newPath;
+            $this->disk = 'local';
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param int $width
+     * @param int $height
+     * @throws \Exception
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     */
+    public function optimizeImage(int $width, int $height)
+    {
+        $processor = new ImageProcessorService();
+        $path = $processor->process($this->getLocalPath(), $width, $height);
+        $newAsset = $this->newFromLocalFile($path);
+        $newAsset->fill([
+            'origin_asset_id' => $this->id,
+        ]);
+        return $newAsset;
     }
 }

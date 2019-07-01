@@ -102,7 +102,19 @@ class UserRadioContentController extends Controller
 
             $content->promotion($this->handlePromotion($data, $content));
 
-            $content->image_asset_id = Asset::createLocalFromUploadedFile($data['image'])->id;
+            $asset = Asset::createLocalFromUploadedFile($data['image']);
+            $assetId = $asset->id;
+            try {
+                $otimizada = $asset->optimizeImage(600, 350);
+                if ($otimizada->size <= $asset->size) {
+                    $otimizada->storageDiskLocal();
+                    $otimizada->save();
+                    $assetId = $otimizada->id;
+                }
+            } catch (\Throwable $t) {
+            }
+
+            $content->image_asset_id = $assetId;
             $content->save();
         } catch (\Throwable $e) {
             return response()->json([
