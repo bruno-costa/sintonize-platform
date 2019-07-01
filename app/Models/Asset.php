@@ -47,19 +47,14 @@ class Asset extends Model
 
     public static function createLocalFromUploadedFile(UploadedFile $uploadedFile)
     {
-        $asset = new self;
+        $asset = self::newFromUploadedFile($uploadedFile);
         $asset->fill([
-            'md5sum' => md5_file($uploadedFile->getRealPath()),
-            'shasum' => sha1_file($uploadedFile->getRealPath()),
-            'size' => $uploadedFile->getSize(),
-            'mime_type' => $uploadedFile->getMimeType(),
             'path' => 'storage/' . substr($uploadedFile->store('public/uploads', 'local'), 7),
             'disk' => 'local',
         ]);
         $asset->save();
         return $asset;
     }
-
 
     public function original()
     {

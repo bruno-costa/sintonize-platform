@@ -12,7 +12,9 @@
         "fideloper/proxy": "^4.0",
         "firebase/php-jwt": "^5.0",
         "laravel/framework": "5.8.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "spatie/image": "^1.7",
+        "spatie/image-optimizer": "^1.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
