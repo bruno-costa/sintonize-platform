@@ -7,10 +7,12 @@ use App\Services\ImageProcessorService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
+use Storage;
 use Symfony\Component\Mime\MimeTypes;
 
 class Asset extends Model
 {
+    private $localPath = null;
     protected $fillable = [
         'id',
         'origin_asset_id',
@@ -53,11 +55,28 @@ class Asset extends Model
         throw new \InvalidArgumentException("path \"{$path}\" is not a file");
     }
 
-
+    /**
+     * @param UploadedFile $uploadedFile
+     * @return Asset
+     * @throws \Exception
+     */
     public static function createLocalFromUploadedFile(UploadedFile $uploadedFile)
     {
         $asset = self::newFromLocalFile($uploadedFile->getRealPath());
         $asset->storageDiskLocal();
+        $asset->save();
+        return $asset;
+    }
+
+    /**
+     * @param UploadedFile $uploadedFile
+     * @return Asset
+     * @throws \Exception
+     */
+    public static function createDOSpacesFromUploadedFile(UploadedFile $uploadedFile, $path, $prefix = '')
+    {
+        $asset = self::newFromLocalFile($uploadedFile->getRealPath());
+        $asset->storageDiskDigitalOceanSpaces($path, $prefix);
         $asset->save();
         return $asset;
     }
@@ -77,23 +96,84 @@ class Asset extends Model
         return AssetController::url($this);
     }
 
+    public function isDiskLocal(): bool
+    {
+        return $this->disk == 'local';
+    }
+
+    public function isDiskRealpath(): bool
+    {
+        return $this->disk == 'realpath';
+    }
+
+    public function isDiskDOSpaces(): bool
+    {
+        return $this->disk == 'do_spaces';
+    }
+
+
     /**
-     * @throws \UnexpectedValueException
      * @return string
+     * @throws \UnexpectedValueException
+     * @throws \Exception
      */
     public function getLocalPath(): string
     {
-        if ($this->disk == 'local') {
-            return storage_path('app/public/' . $this->path);
+        if ($this->localPath) {
+            if (is_file($this->localPath)) {
+                return $this->localPath;
+            } else {
+                throw new \RuntimeException("localpath \"{$this->localPath}\" is not a file");
+            }
         }
-        if ($this->disk == 'realpath') {
-            return $this->path;
+
+        if ($this->isDiskLocal()) {
+            $this->localPath = storage_path('app/public/' . $this->path);
+            return $this->getLocalPath();
+        }
+        if ($this->isDiskRealpath()) {
+            $this->localPath = $this->path;
+            return $this->getLocalPath();
+        }
+        if ($this->isDiskDOSpaces()) {
+            $tempfile = tempnam(sys_get_temp_dir(), 'cfdo_');
+            if (!$tempfile) {
+                throw new \Exception("can't create temp file");
+            }
+            $fileData = Storage::disk('do_spaces')->get($this->path);
+            file_put_contents($tempfile, $fileData);
+            $this->localPath = $tempfile;
+            return $this->getLocalPath();
         }
 
         throw new \UnexpectedValueException("disk \"{$this->disk}\" unexpected");
     }
 
+    /**
+     * @return bool
+     * @throws \Exception
+     */
     public function storageDiskLocal(): bool
+    {
+        $localPath = $this->getLocalPath();
+        $name = Str::random(40);
+        $newPath = "uploads/$name";
+        if (copy($localPath, storage_path("app/public/$newPath"))) {
+            $this->path = $newPath;
+            $this->disk = 'local';
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param string $path
+     * @param string $prefix
+     * @return bool
+     * @throws \Exception
+     */
+    public function storageDiskDigitalOceanSpaces(string $path, $prefix = ''): bool
     {
         $localPath = $this->getLocalPath();
         $extension = pathinfo($localPath)['extension'] ?? null;
@@ -103,11 +183,23 @@ class Asset extends Model
         if ($extension) {
             $extension = ".$extension";
         }
-        $name = Str::random(40) . $extension;
-        $newPath = "uploads/$name";
-        if (copy($localPath, storage_path("app/public/$newPath"))) {
+        $name = $prefix . Str::random(40) . $extension;
+
+        $newPath = trim(env('DO_SPACES_ASSETS_PATH') . "/$path/$name", '/');
+        $stream = fopen($localPath, 'r');
+        $options = [
+            'visibility' => 'private',
+            'mimetype' => $this->mime_type
+        ];
+        $result = Storage::disk('do_spaces')->put($newPath, $stream, $options);
+
+        if (is_resource($stream)) {
+            fclose($stream);
+        }
+
+        if ($result) {
             $this->path = $newPath;
-            $this->disk = 'local';
+            $this->disk = 'do_spaces';
             return true;
         } else {
             return false;

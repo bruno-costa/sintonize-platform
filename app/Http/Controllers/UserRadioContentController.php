@@ -102,12 +102,12 @@ class UserRadioContentController extends Controller
 
             $content->promotion($this->handlePromotion($data, $content));
 
-            $asset = Asset::createLocalFromUploadedFile($data['image']);
+            $asset = Asset::createDOSpacesFromUploadedFile($data['image'], "content/{$content->id}", 'cover_original_');
             $assetId = $asset->id;
             try {
                 $otimizada = $asset->optimizeImage(600, 350);
                 if ($otimizada->size <= $asset->size) {
-                    $otimizada->storageDiskLocal();
+                    $otimizada->storageDiskDigitalOceanSpaces("content/{$content->id}", 'cover_600_350_');
                     $otimizada->save();
                     $assetId = $otimizada->id;
                 }

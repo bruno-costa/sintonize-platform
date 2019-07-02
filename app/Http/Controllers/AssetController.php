@@ -7,6 +7,7 @@ use App\Models\Asset;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
+use Storage;
 
 class AssetController extends Controller
 {
@@ -43,11 +44,19 @@ class AssetController extends Controller
 
     private function generateResponse(Asset $asset, $exp)
     {
-        if ($asset->disk == 'local') {
-            return response()->redirectTo(url('storage/' . $asset->path), 302, [
-                'expires' => date('D, d M Y H:i:s \G\M\T', $exp),
-                'last-modified'=> $asset->updated_at->toRfc7231String(),
-            ]);
+        if ($asset->isDiskLocal()) {
+            return response()->redirectTo(url('storage/' . $asset->path),
+                302, [
+                    'expires' => date('D, d M Y H:i:s \G\M\T', $exp),
+                    'last-modified' => $asset->updated_at->toRfc7231String(),
+                ]);
+        }
+        if ($asset->isDiskDOSpaces()) {
+            return response()->redirectTo(Storage::disk("do_spaces")->temporaryUrl($asset->path, now()->addHour()),
+                302, [
+                    'expires' => date('D, d M Y H:i:s \G\M\T', $exp),
+                    'last-modified' => $asset->updated_at->toRfc7231String(),
+                ]);
         }
 
         return response()->json([

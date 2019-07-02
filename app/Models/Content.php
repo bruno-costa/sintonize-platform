@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Repositories\Promotions\PromotionAbstract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Content extends Model
 {
     use DynamicAttributeTrait;
+    use SoftDeletes;
 
     protected $dynamicAttributeProp = 'promotion_array';
 
